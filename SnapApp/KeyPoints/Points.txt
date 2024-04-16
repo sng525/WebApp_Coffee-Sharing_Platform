@@ -1,0 +1,106 @@
+Build and Deploy a Full Stack Social Media App 
+
+[[[ React JS, Appwrite, Tailwind CSS, React Query ]]]
+
+
+1. Setup
+1) Vite https://vitejs.dev/: set up development environment for React
+2) Create app from stratch
+- Plugins: ES7+ React/Redux/React-Native snippets
+
+2. Basic styles
+1) Tailwind CSS https://tailwindcss.com/docs/guides/vite
+2) globals.css 
+3) tailwind.config.js
+
+3. Routing
+- npm install react-router-dom
+- main.tsx:
+    - import { BrowserRouter } from 'react-router-dom';
+- App.tsx:
+    - import {Routes, Route} from 'react-router-dom';
+- Plugins: Tailwind CSS IntelliSense
+
+4. File & Folder Structure
+
+5. Auth Pages
+- SignupForm
+- UI Library: Shadcn  https://ui.shadcn.com/docs/installation/vite
+- Building forms with React Hook Form and Zod. https://ui.shadcn.com/docs/components/form
+- Everything is within a form when user fills the info, the form will call the function onSubmit(), there we can save the info and call the create user event.
+    !! Here, we learnt [async, await]
+  But where should we put the information?
+  And [Appwrite] will help with databases, functions and storage 
+
+6. Auth Functionality - Appwrite
+-TypeScript: [type], [interface]
+
+7. Storage & Database Design - Appwrite
+/// Sketching
+1) Posts <===== Many to one ====> Users
+  - Creator
+  - Likes
+  - caption
+  - tags
+  - imageUrl
+  - imageId
+  - location
+2) Saves <==== Many to one ====> Users, Saves <===== Many to one ====> Posts
+  - user
+  - post
+3) Users
+  - Posts
+  - Liked
+  - name
+  - username
+  - accountId
+  - email
+  - bio
+  - imageId
+  - imageUrl
+// Important local environment variables  --- .env.local
+// appwrite config & api
+1) createUserAccount
+2) saveUserToDB
+3) Frontend ---> Toast ---> Shadcn https://ui.shadcn.com/docs/components/toast#usage
+
+8. TanStack Query / React Query
+!!! Hooks for fetching, caching and updating asynchronous data in React, Solid, Svelte and Vue
+- sign up -> login -> keep remembering the login status -> so we need to create a context Folder
+- sign in page -> the logic is basically the same as sign up, just a few functions less
+- IMPORTANT: try to understand the logic behind
+  AuthContext
+  Appwrite api
+  SignupForm
+  React-Query 
+
+9. Home page
+1) RootLayout.tsx
+- Components: 
+  Topbar + Bottombar: it happens on mobile devices
+  LeftSidebar: home, explore, people, saved, create post (routes, icons, links)
+2) useEffect()
+3) globals.css
+4) Link, NavLink
+5) useLocation()
+
+10. Create Post Pages
+1) Resuable components: PostForm
+https://ui.shadcn.com/docs/components/form
+2) File Upload
+- Package: react-dropzone
+!!! Never reinvent the wheel, always just refer to the documentation when you can
+3) Define what the form should accept 
+4) Submit -> data mutations
+- queriesAndMutations.ts
+  - queryKey
+  - invalidateQueries
+- context
+- api.ts --> appwrite functions
+
+
+
+
+-------- TODO AFTER THIS VIDEO --------------------------------
+1. Next.js
+2. Zod

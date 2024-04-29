@@ -1,7 +1,7 @@
-import { useUserContext } from '@/context/AuthContext';
-import { useDeletePost, useLikePost, useSavePost } from '@/lib/react-query/queriesAndMutations';
+import { useDeletePost, useGetCurrentUser, useLikePost, useSavePost } from '@/lib/react-query/queriesAndMutations';
 import { checkIsLiked } from '@/lib/utils';
 import { Models } from 'appwrite'
+import { Loader } from 'lucide-react';
 import { useState } from 'react';
 
 type PostStatsProps = {
@@ -17,35 +17,39 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     const [isSaved, setIsSaved] = useState(false);
 
     const { mutate: likePost } = useLikePost();
-    const { mutate: savePost } = useSavePost();
-    const { mutate: deleteSavedPost } = useDeletePost();
+    const { mutate: savePost, isPending: isPendingSave } = useSavePost();
+    const { mutate: deleteSavedPost, isPending: isPendingDeleteSaved } = useDeletePost();
 
-    const { data: currentUser } = useUserContext();
+    const { data: currentUser } = useGetCurrentUser();
 
-    const handleLikePost = (e: React.MouseEvent) => { 
-        e.stopPropagation(); 
+    const handleLikePost = (e: React.MouseEvent) => {
+        e.stopPropagation(); // to stop the muse from clicking other parts
 
-        let newLikes = [...likes];
+        let newLikes = [...likes]; // all the previous likes
         const hasLiked = newLikes.includes(userId);
-        
-        if(hasLiked) {
-            newLikes = newLikes.filter((id) => id !== userId);
+
+        if (hasLiked) {
+            newLikes = newLikes.filter((id) => id !== userId); // keep all the likes besides the current like
         } else {
             newLikes.push(userId);
         }
 
         setLikes(newLikes);
-        likePost({postId: post.$id, likesArray: newLikes})
+        likePost({ postId: post.$id, likesArray: newLikes })
     }
-    const handleSavePost = (e: React.MouseEvent) => { 
-        e.stopPropagation(); 
 
-        const savedPostRecord = currentUser.
+    const handleSavePost = (e: React.MouseEvent) => {
+        e.stopPropagation();
 
-        if(savePost) {
-            newLikes = newLikes.filter((id) => id !== userId);
+        const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.$id == post.$id)
+
+        // Delete the save
+        if (savedPostRecord) {
+            setIsSaved(false);
+            deleteSavedPost(savedPostRecord.$id);
         } else {
-            newLikes.push(userId);
+            savePost({ postId: post.$id, userId })
+            setIsSaved(true);
         }
     }
 
@@ -53,7 +57,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         <div className="flex justify-between items-center z-20">
             <div className='flex gap-2 mr-5'>
                 <img
-                    src={checkIsLiked(likes, userId) ? "/assets/icons/liked.svg" : "/assets/icons/like.svg"}
+                    src={checkIsLiked(likes, userId) ? "/assets/icons/liked.png" : "/assets/icons/like.svg"}
                     alt="like"
                     width={30}
                     height={30}
@@ -64,14 +68,14 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
             </div>
 
             <div className='flex gap-2'>
-                <img
+                { isPendingSave || isPendingDeleteSaved ? <Loader/> : <img
                     src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
                     alt="save"
                     width={30}
                     height={30}
                     onClick={handleSavePost}
                     className="cursor-pointer"
-                />
+                />}
             </div>
         </div>
     )

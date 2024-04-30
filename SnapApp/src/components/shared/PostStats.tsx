@@ -1,4 +1,4 @@
-import { useDeletePost, useGetCurrentUser, useLikePost, useSavePost } from '@/lib/react-query/queriesAndMutations';
+import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from '@/lib/react-query/queriesAndMutations';
 import { checkIsLiked } from '@/lib/utils';
 import { Models } from 'appwrite'
 import { Loader } from 'lucide-react';
@@ -18,7 +18,7 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
     const { mutate: likePost } = useLikePost();
     const { mutate: savePost, isPending: isPendingSave } = useSavePost();
-    const { mutate: deleteSavedPost, isPending: isPendingDeleteSaved } = useDeletePost();
+    const { mutate: deleteSavedPost, isPending: isPendingDeleteSaved } = useDeleteSavedPost();
 
     const { data: currentUser } = useGetCurrentUser();
 

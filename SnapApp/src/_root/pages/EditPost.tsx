@@ -26,7 +26,7 @@ const EditPost = () => {
           </h2>
         </div>
 
-        <PostForm action="update" post={post}>
+        <PostForm action="Update" post={post}>
           
         </PostForm>
 

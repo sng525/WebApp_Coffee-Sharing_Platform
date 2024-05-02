@@ -4,12 +4,13 @@ import { useGetPostById } from '@/lib/react-query/queriesAndMutations';
 import { useParams } from 'react-router-dom'
 
 const EditPost = () => {
-  const { postId } = useParams();
-  const {data: post, isPending} = useGetPostById(postId || '');
+  const { id } = useParams();
+  const { data: post, isLoading } = useGetPostById(id);
 
-  if (isPending) {
-    return <Loader />;
-  }
+  if (isLoading)
+    return 
+        <Loader />
+    ;
 
   return (
     <div className="flex flex-1">

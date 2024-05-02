@@ -2,6 +2,8 @@ import { INewUser, INewPost, IUpdatePost } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
+
+// Sign up
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -50,12 +52,11 @@ export async function saveUserToDB(user: {
   }
 }
 
+// Sign in
 export async function signInAccount(user: { email: string; password: string }) {
   try {
-    const session = await account.createEmailPasswordSession(
-      user.email,
-      user.password
-    );
+    const session = await account.createEmailPasswordSession(user.email,user.password);
+    localStorage.setItem("sessionId", session.userId);
     return session;
   } catch (error) {
     console.log(error);
@@ -95,6 +96,7 @@ export async function getCurrentUser() {
 
 export async function signOutAccount() {
   try {
+    localStorage.clear();
     const session = await account.deleteSession("current");
     return session;
   } catch (error) {
@@ -111,7 +113,7 @@ export async function createPost(post: INewPost) {
     const fileUrl = getFilePreview(uploadedFile.$id);
 
     if (!fileUrl) {
-      deleteFile(uploadedFile.$id);
+      await deleteFile(uploadedFile.$id);
       throw Error;
     }
 
@@ -254,16 +256,15 @@ export async function getPostById(postId: string) {
       appwriteConfig.postCollectionId,
       postId
     );
-
-    if (!post) throw Error;
-
     return post;
+    
   } catch (error) {
     console.log(error);
   }
 }
 
 export async function updatePost(post: IUpdatePost) {
+
   const hasFileToUpdate = post.file.length > 0;
 
   try {
@@ -276,6 +277,7 @@ export async function updatePost(post: IUpdatePost) {
       const uploadedFile = await uploadFile(post.file[0]);
       if (!uploadedFile) throw Error;
 
+      // Get file url
       const fileUrl = getFilePreview(uploadedFile.$id);
 
       if (!fileUrl) {
@@ -283,12 +285,14 @@ export async function updatePost(post: IUpdatePost) {
         throw Error;
       }
 
+      // Set new image url
       image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
     }
 
     // convert tags into an array
     const tags = post.tags?.replace(/ /g, "").split(",") || [];
 
+    // Update the data in the database
     const updatedPost = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.postCollectionId,

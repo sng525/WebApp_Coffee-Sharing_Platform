@@ -36,7 +36,7 @@ const GrindPostList = ({ posts, showUser = true, showStats = true }: GridPostLis
               </div>
             )}
 
-            {showStats && <PostStats userId={''}/>}
+            {showStats && <PostStats post={post} userId={user.id} />}
           </div>
         </li>
       ))}

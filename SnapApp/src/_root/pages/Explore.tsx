@@ -1,18 +1,24 @@
 import SearchResults from '@/components/shared/SearchResults';
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import GrindPostList from './GrindPostList';
 import { useGetPosts, useSearchPosts } from '@/lib/react-query/queriesAndMutations';
 import useDebounce from '@/hooks/useDebounce';
 import Loader from '@/components/shared/Loader';
+import { useInView } from "react-intersection-observer";
 
 const Explore = () => {
+  const { ref, inView} = useInView();
   const {data: posts, fetchNextPage, hasNextPage} = useGetPosts();
 
   const [searchValue, setSearchValue] = useState('');
   const debouncedValue = useDebounce(searchValue, 500);
 
-  const {data: searchPosts, isFetching: isSearching} = useSearchPosts(debouncedValue);
+  const {data: searchedPosts, isFetching: isSearching} = useSearchPosts(debouncedValue);
+
+  useEffect(() => {
+    if (inView && !searchValue) fetchNextPage();
+  }, [inView, searchValue])
 
   if (!posts) return (
     <div className="flex-center w-full h-full">
@@ -55,12 +61,18 @@ const Explore = () => {
 
       <div className="flex flex-wrap gap-9 w-full max-w-5xl">
         {shouldShowSearchResults ? (
-          <SearchResults/>
+          <SearchResults isSearching={isSearching} searchedPosts={searchedPosts}/>
         ) : shouldShowPosts ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : posts.pages.map((item, index) => (
           <GrindPostList key={`page-${index}`} posts={item.documents}/>))}
       </div>
+
+      {hasNextPage && !searchValue && (
+        <div ref={ref} className="mt-10">
+          <Loader />
+        </div>
+      )}
 
     </div>
   )

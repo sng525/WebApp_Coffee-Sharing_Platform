@@ -96,11 +96,11 @@
   }
 
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #a3a3f1;
+    background: rgb(236, 230, 230);
   }
 
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #5c5c7b;
+    background:  rgb(202, 205, 216);
     border-radius: 50px;
   }
 
@@ -233,6 +233,11 @@
 
   .post-card_img {
     @apply h-64 xs:h-[400px] lg:h-[450px] w-full rounded-[24px] object-cover mb-5;
+  }
+
+   /* Right sidebar */
+   .rightsidebar {
+    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-slate-300;
   }
 
   /* Topbar */

@@ -186,15 +186,25 @@ export async function deleteFile(fileId: string) {
   }
 }
 
-export async function getRecentPosts() {
-  const posts = await databases.listDocuments(
+export async function getRecentPosts( {pageParam} : {pageParam: number}) {
+  const queries = [Query.orderDesc('$createdAt'), Query.limit(20)]
+
+  if (pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()));
+  }
+
+  try {
+      const posts = await databases.listDocuments(
     appwriteConfig.databaseId,
-    appwriteConfig.postCollectionId
-    // [Query.orderDesc('$createdAt'), Query.limit(20)],
+    appwriteConfig.postCollectionId,
+    queries
   );
 
   if (!posts) throw Error;
+
   return posts;
+  } catch (error) {
+  }
 }
 
 export async function likePost(postId: string, likesArray: string[]) {

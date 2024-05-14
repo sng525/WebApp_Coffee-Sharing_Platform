@@ -3,7 +3,7 @@ import {
   useQuery,
   useMutation,
   useQueryClient,
-  useInfiniteQuery
+  useInfiniteQuery,
 } from "@tanstack/react-query";
 import {
   createPost,
@@ -53,11 +53,18 @@ export const useCreatePost = () => {
 };
 
 export const useGetRecentPosts = () => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_RECENT_POSTS],
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEYS.GET_POSTS],
     queryFn: getRecentPosts,
+    getNextPageParam: (lastPage) => {
+      if (lastPage && lastPage.documents.length == 0) return null;
+
+      const lastId = lastPage?.documents[lastPage.documents.length - 1].$id;
+      return lastId;
+    },
   });
 };
+
 
 export const useLikePost = () => {
   const queryClient = useQueryClient();
@@ -171,7 +178,7 @@ export const useGetPosts = () => {
     queryFn: getInfinitePosts,
     getNextPageParam: (lastPage) => {
       if (lastPage && lastPage.documents.length == 0) return null;
-      
+
       const lastId = lastPage.documents[lastPage?.documents.length - 1].$id;
       return lastId;
     },
@@ -182,6 +189,6 @@ export const useSearchPosts = (searchTerm: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.SEARCH_POSTS, searchTerm],
     queryFn: () => searchPosts(searchTerm),
-    enabled: !!searchTerm
+    enabled: !!searchTerm,
   });
-}
+};

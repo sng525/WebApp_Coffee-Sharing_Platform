@@ -4,12 +4,12 @@ import { Models } from "appwrite"
 import { Link } from "react-router-dom"
 import PostStats from "./PostStats"
 
-type PostCardDrops = {
+type PostCardProps = {
     post: Models.Document
 }
 
 
-const PostCard = ( { post } : PostCardDrops) => {
+const PostCard = ( { post } : PostCardProps) => {
     const { user } = useUserContext();
     
     if (!post.creator) return;

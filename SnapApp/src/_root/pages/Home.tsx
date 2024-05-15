@@ -1,14 +1,13 @@
 import Loader from "@/components/shared/Loader"
 import PostCard from "@/components/shared/PostCard";
-import { useGetRecentPosts } from "@/lib/react-query/queriesAndMutations";
+import UserCard from "@/components/shared/UserCard";
+import { useGetRecentPosts, useGetUsers } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
 
 
 const Home = () => {
-  const {
-    data: posts, 
-    isLoading
-  } = useGetRecentPosts();
+  const {data: posts, isLoading: isFetchingPosts} = useGetRecentPosts();
+  const { data: users, isLoading: isFetchingUsers} = useGetUsers();
 
   return (
     <div className="flex flex-1">
@@ -18,7 +17,7 @@ const Home = () => {
 
           <div>
             {
-              isLoading && !posts ? (
+              isFetchingPosts && !posts ? (
                 <Loader />
               ) : (
                 <ul className="flex flex-col flex-1 gap-9 w-full">
@@ -34,6 +33,34 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      <div className="rightsidebar">
+            <div className="home-creators">
+                <h2 className="h3-bold text-left w-full">Top Creators</h2>
+            </div>
+
+            <div>
+                {
+                    isFetchingUsers && !users ? (
+                        <Loader />
+                    ) : (
+                        <div>
+                            <ul className="grid grid-cols-2 gap-4 py-4 px-4">
+                                {
+                                    users?.documents?.map((user: Models.Document) => (
+                                        <li key={user.accountId} className="user-card">
+                                            <UserCard user={user} />
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                    )
+                }
+
+            </div>
+
+        </div>
     </div>
   )
 }

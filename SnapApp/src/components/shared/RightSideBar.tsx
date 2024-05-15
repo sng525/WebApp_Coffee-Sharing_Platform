@@ -3,6 +3,7 @@ import Loader from './Loader'
 import { Models } from 'appwrite';
 import { Link } from 'react-router-dom';
 import { useGetUsers } from '@/lib/react-query/queriesAndMutations';
+import { Button } from '../ui/button';
 
 const RightSideBar = () => {
     const { data: users, isLoading } = useGetUsers();
@@ -18,23 +19,33 @@ const RightSideBar = () => {
                     isLoading && !users ? (
                         <Loader />
                     ) : (
-                        <ul>
-                            {
-                                users?.documents?.map((user: Models.Document) => (
-                                    <li key={user.id} className="flex justify-center w-full">
-                                        <div className="user-card">
-                                            <div className="flex-between">
-                                                <div className="flex items-center gap-3">
-                                                    <Link to={`/profile/${user.$id}`}>
-                                                        <img src={user.id.imageUrl || 'assets/images/default-profile.svg'} />
-                                                    </Link>
-                                                </div>
+                        <div>
+                            <ul className="grid grid-cols-2 gap-4 py-4 px-4">
+                                {
+                                    users?.documents?.map((user: Models.Document) => (
+                                        <li key={user.accountId} className="user-card">
+                                            <div>
+                                                <Link to={`/profile/${user.accountId}`}>
+                                                    <img src={user.imageUrl || 'assets/images/default-profile.svg'}
+                                                        alt="avatar"
+                                                        className="rounded-full w-20 h-20"
+                                                    />
+                                                </Link>
                                             </div>
-                                        </div>
-                                    </li>
-                                ))
-                            }
-                        </ul>
+
+                                            <div className="flex flex-col items-center">
+                                                <p className="base-medium lg:body-bold text-dark-3"> {user.name} </p>
+                                                <p className="base-small text-light-3"> @{user.username} </p>
+                                            </div>
+
+                                            <Button className="shad-button_follow py-5 px-5" >
+                                                Follow
+                                            </Button>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
                     )
                 }
 

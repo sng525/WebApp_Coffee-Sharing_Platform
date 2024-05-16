@@ -1,13 +1,19 @@
 import Loader from "@/components/shared/Loader"
 import PostCard from "@/components/shared/PostCard";
 import UserCard from "@/components/shared/UserCard";
+import { toast } from "@/components/ui/use-toast";
 import { useGetRecentPosts, useGetUsers } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
 
 
 const Home = () => {
   const {data: posts, isLoading: isFetchingPosts} = useGetRecentPosts();
-  const { data: users, isLoading: isFetchingUsers} = useGetUsers();
+  const { data: users, isLoading: isFetchingUsers, isError: isErrorUsers} = useGetUsers(10);
+
+  if (isErrorUsers) {
+    toast({title: "Something went wrong."})
+    return
+  }
 
   return (
     <div className="flex flex-1">
@@ -55,7 +61,7 @@ const Home = () => {
                                 }
                             </ul>
                         </div>
-                    )
+                    ) 
                 }
 
             </div>

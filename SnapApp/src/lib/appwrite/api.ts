@@ -393,3 +393,17 @@ export async function getUsers(limit?: number) {
     console.log(error);
   }
 }
+
+export async function getSavedPosts() {
+  try {
+    const saves = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.saveCollectionId
+    );
+
+    if (!saves) throw Error;
+    return saves;
+  } catch (error) {
+    console.log(error);
+  }
+}

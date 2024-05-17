@@ -3,15 +3,16 @@ import { checkIsLiked } from '@/lib/utils';
 import { Models } from 'appwrite'
 import { Loader } from 'lucide-react';
 import { useState } from 'react';
+import { toast } from '../ui/use-toast';
 
 type PostStatsProps = {
-    post?: Models.Document;
+    post: Models.Document;
     userId: string;
 }
 
 const PostStats = ({ post, userId }: PostStatsProps) => {
 
-    const likesList = post?.likes.map((user: Models.Document) => user.$id);
+    const likesList = post.likes.map((user: Models.Document) => user.$id);
 
     const [likes, setLikes] = useState(likesList);
     const [isSaved, setIsSaved] = useState(false);
@@ -41,16 +42,20 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
     const handleSavePost = (e: React.MouseEvent) => {
         e.stopPropagation();
 
-        const savedPostRecord = currentUser?.save.find((record: Models.Document) => record.$id == post?.$id)
-
-        // Delete the save
-        if (savedPostRecord) {
-            setIsSaved(false);
-            deleteSavedPost(savedPostRecord.$id);
+        if (currentUser) {
+            const savedPostRecord = currentUser?.save?.find((record: Models.Document) => record.$id == post?.$id)
+            // Delete the save
+            if (savedPostRecord) {
+                setIsSaved(false);
+                deleteSavedPost(savedPostRecord.$id);
+            } else {
+                savePost({ postId: post?.$id || '', userId })
+                setIsSaved(true);
+            }
         } else {
-            savePost({ postId: post?.$id || '', userId })
-            setIsSaved(true);
+            return toast({ title: "Saving failed." })
         }
+
     }
 
     return (
@@ -68,12 +73,12 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
             </div>
 
             <div className='flex gap-2'>
-                { isPendingSave || isPendingDeleteSaved ? <Loader/> : <img
+                {isPendingSave || isPendingDeleteSaved ? <Loader /> : <img
                     src={isSaved ? "/assets/icons/saved.svg" : "/assets/icons/save.svg"}
                     alt="save"
                     width={30}
                     height={30}
-                    onClick={handleSavePost}
+                    onClick={(e) => handleSavePost(e)}
                     className="cursor-pointer"
                 />}
             </div>

@@ -114,7 +114,7 @@
 
   /* All Users */
   .user-container {
-    @apply flex flex-col flex-1 w-full gap-6  py-10 px-5 md:p-14 ;
+    @apply flex flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
   }
 
   .user-grid {
@@ -183,7 +183,7 @@
 
   /* Saved */
   .saved-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
   }
 
   /* Bottom bar */

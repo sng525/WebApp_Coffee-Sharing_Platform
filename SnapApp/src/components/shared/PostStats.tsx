@@ -2,7 +2,7 @@ import { useDeleteSavedPost, useGetCurrentUser, useLikePost, useSavePost } from 
 import { checkIsLiked } from '@/lib/utils';
 import { Models } from 'appwrite'
 import { Loader } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from '../ui/use-toast';
 
 type PostStatsProps = {
@@ -23,7 +23,14 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
 
     const { data: currentUser } = useGetCurrentUser();
 
-    const handleLikePost = (e: React.MouseEvent) => {
+    const savedPostRecord = currentUser?.save?.find((record: Models.Document) => record.$id === post?.$id);
+
+    useEffect(() => {
+        setIsSaved(!!savedPostRecord);
+    }, [currentUser])
+
+    const handleLikePost = (
+        e: React.MouseEvent) => {
         e.stopPropagation(); // to stop the muse from clicking other parts
 
         let newLikes = [...likes]; // all the previous likes
@@ -39,23 +46,18 @@ const PostStats = ({ post, userId }: PostStatsProps) => {
         likePost({ postId: post?.$id || '', likesArray: newLikes })
     }
 
-    const handleSavePost = (e: React.MouseEvent) => {
+    const handleSavePost = (
+        e: React.MouseEvent) => {
         e.stopPropagation();
 
-        if (currentUser) {
-            const savedPostRecord = currentUser?.save?.find((record: Models.Document) => record.$id == post?.$id)
-            // Delete the save
-            if (savedPostRecord) {
-                setIsSaved(false);
-                deleteSavedPost(savedPostRecord.$id);
-            } else {
-                savePost({ postId: post?.$id || '', userId })
-                setIsSaved(true);
-            }
-        } else {
-            return toast({ title: "Saving failed." })
-        }
+        if (savedPostRecord) {
+            setIsSaved(false);
+            return deleteSavedPost(savedPostRecord.$id);
+          }
 
+
+        savePost({ userId: userId, postId: post.$id });
+        setIsSaved(true);
     }
 
     return (

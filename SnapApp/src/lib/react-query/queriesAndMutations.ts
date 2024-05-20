@@ -14,7 +14,7 @@ import {
   getInfinitePosts,
   getPostById,
   getRecentPosts,
-  getSavedPosts,
+  getSavesByUserId,
   getUsers,
   likePost,
   savePost,
@@ -196,9 +196,9 @@ export const useGetUsers = (limit? : number) => {
   });
 };
 
-export const useGetSaves = () => {
+export const useGetSaves = (userId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_SAVED_POSTS],
-    queryFn: getSavedPosts
+    queryFn: () => getSavesByUserId(userId)
   });
 };

@@ -394,14 +394,13 @@ export async function getUsers(limit?: number) {
   }
 }
 
-export async function getSavedPosts() {
+export async function getSavesByUserId(userId: string) {
   try {
     const saves = await databases.listDocuments(
       appwriteConfig.databaseId,
-      appwriteConfig.saveCollectionId
+      appwriteConfig.saveCollectionId,
+      [Query.equal("user", [userId])]
     );
-
-    if (!saves) throw Error;
     return saves;
   } catch (error) {
     console.log(error);

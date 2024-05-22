@@ -34,7 +34,6 @@ const Saved = () => {
             <div>
               <ul className="user-grid">
                 {
-                  
                   saves?.documents?.map((save: Models.Document) => (
                     <li key={save.post} className="saves-card">
                       <Link to={`/posts/${save.post.$id}`}>

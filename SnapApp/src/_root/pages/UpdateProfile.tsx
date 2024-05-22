@@ -1,8 +1,11 @@
-import React from 'react'
 
 const UpdateProfile = () => {
   return (
-    <div>UpdateProfile</div>
+    <div className="flex flex-1">
+        <div>
+          <h2>Edit Profile</h2>
+        </div>
+    </div>
   )
 }
 

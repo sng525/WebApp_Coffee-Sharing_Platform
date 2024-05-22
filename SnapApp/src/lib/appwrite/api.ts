@@ -373,7 +373,7 @@ export async function searchPosts(searchTerm: string) {
 }
 
 export async function getUsers(limit?: number) {
-  const queries =  [Query.orderDesc("$createdAt")]
+  const queries = [Query.orderDesc("$createdAt")];
 
   if (limit) {
     queries.push(Query.limit(limit));
@@ -402,6 +402,19 @@ export async function getSavesByUserId(userId: string) {
       [Query.equal("user", [userId])]
     );
     return saves;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getPostsByUserId(userId: string) {
+  try {
+    const posts = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal("creator", [userId])]
+    );
+    return posts;
   } catch (error) {
     console.log(error);
   }

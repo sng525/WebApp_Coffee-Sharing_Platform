@@ -58,7 +58,6 @@ export async function signInAccount(user: { email: string; password: string }) {
       user.email,
       user.password
     );
-    localStorage.setItem("sessionId", session.userId);
     return session;
   } catch (error) {
     console.log(error);
@@ -415,6 +414,19 @@ export async function getPostsByUserId(userId: string) {
       [Query.equal("creator", [userId])]
     );
     return posts;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUserById(userId: string) {
+  try {
+    const user = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId
+    );
+    return user;
   } catch (error) {
     console.log(error);
   }

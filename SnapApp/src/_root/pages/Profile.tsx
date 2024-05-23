@@ -1,21 +1,22 @@
 import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import { useUserContext } from "@/context/AuthContext";
-import { useGetUserPosts } from "@/lib/react-query/queriesAndMutations";
+import { useGetUserById, useGetUserPosts } from "@/lib/react-query/queriesAndMutations";
 import { Models } from "appwrite";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 const Profile = () => {
-  const { user } = useUserContext();
-  const { data: posts, isLoading: isFetchingUserPosts } = useGetUserPosts(
-    user.id
-  );
+  const { id } = useParams();
+  const { data : user } = useGetUserById(id || '');
+  // const { data: posts, isLoading: isFetchingUserPosts } = useGetUserPosts(user.id);
+
+  const { currentUser } = useUserContext();
 
   return (
     <div className="profile-container">
       <div className="profile-inner_container">
         <img
-          src={user.imageUrl || "../assets/images/profile-default.png"}
+          src={user?.imageUrl || "../assets/images/profile-default.png"}
           alt="profile"
           width={200}
           height={200}
@@ -23,9 +24,9 @@ const Profile = () => {
         />
         <div className="flex flex-col">
           <div className="flex flex-row flex-center px-5">
-            <h1 className="h1-bold md:h2 bold text-left w-full">{user.name}</h1>
+            <h1 className="h1-bold md:h2 bold text-left w-full">{user?.name}</h1>
             <Link
-              to={`/update-profile/${user.accountId}`}
+              to={`/update-profile/${user?.accountId}`}
               className="w-full flex flex-row px-1"
             >
               <Button type="button" className="shad-button_primary">
@@ -35,11 +36,11 @@ const Profile = () => {
             </Link>
           </div>
 
-          <p className="text-sm px-5">@{user.username}</p>
+          <p className="text-sm px-5">@{user?.username}</p>
 
           <div className="grid grid-cols-3 py-5">
             <div className="px-5">
-              <p className="text-xl text-blue-600">{posts?.total}</p>
+              <p className="text-xl text-blue-600">{user?.posts.length}</p>
               <p>Posts</p>
             </div>
             <div className="px-5">
@@ -53,17 +54,14 @@ const Profile = () => {
           </div>
 
           <div>
-            <p>{user.bio}</p>
+            <p>{user?.bio}</p>
           </div>
         </div>
       </div>
 
-      <div>
-        {isFetchingUserPosts && !!posts ? (
-          <Loader />
-        ) : (
+      <div className={`${user?.id !== currentUser.id && "hidden"}`}>
           <ul className="user-grid">
-            {posts?.documents.map((post: Models.Document) => (
+            {user?.posts.documents.map((post: Models.Document) => (
               <li key={post.$id}>
                 <Link to={`/posts/${post.$id}`} className="saves-card">
                   <img
@@ -75,7 +73,6 @@ const Profile = () => {
               </li>
             ))}
           </ul>
-        )}
       </div>
     </div>
   );

@@ -6,10 +6,8 @@ import { Link } from 'react-router-dom';
 
 const Saved = () => {
   const { user } = useUserContext();
-
   const { data: saves, isLoading: isFetchingSavedPosts } = useGetSaves(user.id);
-
-
+  
   return (
     <div className="saved-container">
       <div className="saves-inner_container">

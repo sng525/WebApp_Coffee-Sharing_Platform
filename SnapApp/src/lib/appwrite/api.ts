@@ -406,19 +406,6 @@ export async function getSavesByUserId(userId: string) {
   }
 }
 
-export async function getPostsByUserId(userId: string) {
-  try {
-    const posts = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.postCollectionId,
-      [Query.equal("creator", [userId])]
-    );
-    return posts;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export async function getUserById(userId: string) {
   try {
     const user = await databases.getDocument(

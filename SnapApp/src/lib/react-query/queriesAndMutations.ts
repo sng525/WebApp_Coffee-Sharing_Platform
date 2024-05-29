@@ -13,7 +13,6 @@ import {
   getCurrentUser,
   getInfinitePosts,
   getPostById,
-  getPostsByUserId,
   getRecentPosts,
   getSavesByUserId,
   getUserById,
@@ -204,17 +203,10 @@ export const useGetSaves = (userId: string) => {
   });
 };
 
-export const useGetUserPosts = (userId: string) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_USER_POSTS],
-    queryFn: () => getPostsByUserId(userId),
-  });
-};
-
 export const useGetUserById = (userId: string) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
     queryFn: () => getUserById(userId),
-    enabled: !!userId, //!!!
+    enabled: !!userId,
   });
 };

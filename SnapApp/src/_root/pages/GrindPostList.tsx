@@ -10,7 +10,7 @@ type GridPostListProps = {
   showStats?: boolean;
 }
 
-const GrindPostList = ({ posts, showUser = true, showStats = true }: GridPostListProps) => {
+const GrindPostList = ({ posts, showUser, showStats }: GridPostListProps) => {
   const { user } = useUserContext();
 
   return (

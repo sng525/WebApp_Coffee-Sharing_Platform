@@ -19,3 +19,11 @@ export const PostValidation = z.object({
   tags: z.string()
 });
 
+export const ProfileValidation = z.object({
+  name: z.string().min(2, { message: "Too short"}),
+  username:  z.string().min(2, { message: "Too short"}),
+  email:z.string().email(),
+  bio: z.string(),
+  file: z.custom<File[]>()
+});
+

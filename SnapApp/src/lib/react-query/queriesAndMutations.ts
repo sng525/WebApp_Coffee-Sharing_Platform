@@ -1,4 +1,4 @@
-import { INewUser, INewPost, IUpdatePost, IUpdatePost } from "@/types";
+import { INewUser, INewPost, IUpdatePost, IUpdatePost, IUpdateUser } from "@/types";
 import {
   useQuery,
   useMutation,
@@ -23,6 +23,7 @@ import {
   signInAccount,
   signOutAccount,
   updatePost,
+  updateProfile,
 } from "../appwrite/api";
 import { QUERY_KEYS } from "./queryKeys";
 
@@ -175,7 +176,7 @@ export const useGetPosts = () => {
     getNextPageParam: (lastPage) => {
       if (lastPage && lastPage.documents.length == 0) return null;
 
-      const lastId = lastPage.documents[lastPage?.documents.length - 1].$id;
+      const lastId = lastPage?.documents[lastPage?.documents.length - 1].$id;
       return lastId;
     },
   });
@@ -208,5 +209,18 @@ export const useGetUserById = (userId: string) => {
     queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
     queryFn: () => getUserById(userId),
     enabled: !!userId,
+  });
+};
+
+export const useUpdateProfile = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (user: IUpdateUser) => updateProfile(user),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+      });
+    },
   });
 };

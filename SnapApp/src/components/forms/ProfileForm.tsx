@@ -16,23 +16,25 @@ import { Button } from '../ui/button';
 
 const ProfileForm = () => {
 
+    // Mutation hook for handling the mutation
     const { mutateAsync: UpdateProfile, isPending: isLoadingUpdate } = useUpdateProfile();
     const { user } = useUserContext();
     const navigate = useNavigate();
 
+    // Set up the default value for the fields using zod validation to show the current values.
     const form = useForm<z.infer<typeof ProfileValidation>>(
         {
             resolver: zodResolver(ProfileValidation),
             defaultValues: {
-                name: user ? user?.name : "",
-                username: user ? user?.username : "",
-                email: user ? user?.email : "",
-                bio: user ? user?.bio : "",
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                bio: user.bio || "",
                 file: []
             },
         }
     )
-
+    
     async function onSubmit(values: z.infer<typeof ProfileValidation>) {
         if (user) {
             const updatedProfile = await UpdateProfile(

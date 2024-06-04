@@ -25,12 +25,12 @@ const Profile = () => {
           height={200}
           className="aspect-square rounded-full"
         />
-        <div className="flex flex-col">
-          <div className="flex flex-row flex-center px-5">
-            <h1 className="h1-bold md:h2 bold text-left w-full">{currentUser?.name}</h1>
+        <div className="flex flex-col px-5">
+          <div className="flex flex-row items-center space-x-6">
+            <h1 className="h1-bold md:h2 bold text-left w-full whitespace-nowrap">{currentUser?.name}</h1>
             <Link
               to={`/update-profile/${currentUser?.$id}`}
-              className="w-full flex flex-row px-1">
+              className="w-full">
               <div className={`${user.id !== id && "hidden"}`}>
                 <Button type="button" className="shad-button_primary">
                   <img src="../assets/icons/edit.svg" width={20} height={20} />
@@ -46,23 +46,23 @@ const Profile = () => {
             </div>
           </div>
 
-          <p className="text-sm px-5">@{currentUser?.username}</p>
+          <p className="text-sm">@{currentUser?.username}</p>
 
           <div className="grid grid-cols-3 py-5">
-            <div className="px-5">
+            <div>
               <p className="text-xl text-blue-600">{currentUser?.posts.length}</p>
               <p>Posts</p>
             </div>
-            <div className="px-5">
+            <div>
               <p className="text-xl text-blue-600">15</p>
               <p>Followers</p>
             </div>
-            <div className="px-5">
+            <div>
               <p className="text-xl text-blue-600">15</p>
               <p>Following</p>
             </div>
           </div>
-          <div className="px-5">
+          <div>
             <p>{currentUser?.bio}</p>
           </div>
         </div>

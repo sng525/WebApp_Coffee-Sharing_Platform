@@ -29,7 +29,7 @@ const Profile = () => {
           <div className="flex flex-row flex-center px-5">
             <h1 className="h1-bold md:h2 bold text-left w-full">{currentUser?.name}</h1>
             <Link
-              to={`/update-profile/${currentUser?.accountId}`}
+              to={`/update-profile/${currentUser?.$id}`}
               className="w-full flex flex-row px-1">
               <div className={`${user.id !== id && "hidden"}`}>
                 <Button type="button" className="shad-button_primary">
@@ -62,7 +62,7 @@ const Profile = () => {
               <p>Following</p>
             </div>
           </div>
-          <div>
+          <div className="px-5">
             <p>{currentUser?.bio}</p>
           </div>
         </div>

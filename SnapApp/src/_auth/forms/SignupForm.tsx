@@ -69,10 +69,10 @@ const SignupForm = () => {
 
   return (
     <Form {...form}>
-      <div className="sm:w-420 flex-center flex-col">
+      <div className="sm:w-420 flex-center flex-col gap-2">
         <img src="/assets/images/coffee-icon.svg" alt="logo" style={{ width: '50px', height: '50px' }} />
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Create a new account</h2>
-        <p className="text-light-3 small-medium md:base-regular">To use SnapApp, please enter your details.</p>
+        <h1 className="font-sans text-4xl md:h2-bold pt-5 sm:pt-12">Create New Account</h1>
+        <p className="text-light-4 small-medium md:base-regular">To use Coffee Master, please enter your details.</p>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
           <FormField
@@ -133,11 +133,11 @@ const SignupForm = () => {
                 <div className="flex-center gap-2">
                   <Loader />Loading...
                 </div>
-              ) : "Sign Up"
+              ) : "Create Account"
             }
           </Button>
           <p className="text-small-regular text-dark-4 text-center mt-2">Already have an account?
-            <Link to="/sign-in" className="text-small-semibold ml-1" style={{ color: '#05678C' }}>Log in</Link>
+            <Link to="/sign-in" className="text-small-semibold ml-1" style={{ color: '#ba522f' }}>Login</Link>
           </p>
         </form>
       </div>

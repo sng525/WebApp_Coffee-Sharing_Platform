@@ -32,7 +32,7 @@ const Profile = () => {
               to={`/update-profile/${currentUser?.$id}`}
               className="w-full">
               <div className={`${user.id !== id && "hidden"}`}>
-                <Button type="button" className="shad-button_primary">
+                <Button type="button" className="shad-button_dark_4">
                   <img src="../assets/icons/edit.svg" width={20} height={20} />
                   <p>Edit Profile</p>
                 </Button>
@@ -40,7 +40,7 @@ const Profile = () => {
             </Link>
 
             <div className={`${user.id === id && "hidden"}`}>
-              <Button type="button" className="shad-button_primary">
+              <Button type="button" className="shad-button_dark_4">
                 Follow
               </Button>
             </div>
@@ -50,15 +50,15 @@ const Profile = () => {
 
           <div className="grid grid-cols-3 py-5">
             <div>
-              <p className="text-xl text-blue-600">{currentUser?.posts.length}</p>
+              <p className="text-xl text-blue-700">{currentUser?.posts.length}</p>
               <p>Posts</p>
             </div>
             <div>
-              <p className="text-xl text-blue-600">15</p>
+              <p className="text-xl text-blue-700">15</p>
               <p>Followers</p>
             </div>
             <div>
-              <p className="text-xl text-blue-600">15</p>
+              <p className="text-xl text-blue-700">15</p>
               <p>Following</p>
             </div>
           </div>

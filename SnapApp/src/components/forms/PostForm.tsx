@@ -11,7 +11,7 @@ import { Models } from "appwrite"
 import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext"
 import { useToast } from "../ui/use-toast"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 type PostFormProps = {
     post?: Models.Document;
@@ -21,7 +21,6 @@ type PostFormProps = {
 const PostForm = ({ post, action }: PostFormProps) => {
     const { mutateAsync: CreatePost, isPending: isLoadingCreate } = useCreatePost();
     const { mutateAsync: UpdatePost, isPending: isLoadingUpdate } = useUpdatePost();
-    // const { mutateAsync: DeletePost, isPending: isLoadingDelete } = useDeletePost();
 
     const { user } = useUserContext();
     const { toast } = useToast();
@@ -31,6 +30,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const form = useForm<z.infer<typeof PostValidation>>({
         resolver: zodResolver(PostValidation),
         defaultValues: {
+            brand: post ? post?.brand : "",
+            type: post ? post?.type : "",
             caption: post ? post?.caption : "",
             file: [],
             location: post ? post?.location : "",
@@ -75,6 +76,40 @@ const PostForm = ({ post, action }: PostFormProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
                 <FormField
                     control={form.control}
+                    name="brand"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
+                            <FormControl>
+                                <Input
+                                    type="text"
+                                    className="shad-input"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage className="shad-form_message" />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="type"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="shad-form_label">Coffee Type</FormLabel>
+                            <FormControl>
+                                <Input
+                                    type="text"
+                                    className="shad-input"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage className="shad-form_message" />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
                     name="caption"
                     render={({ field }) => (
                         <FormItem>
@@ -95,7 +130,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormControl>
                                 <FileUploader
                                     fieldChange={field.onChange}
-                                    mediaUrl={post?.imageUrl} changeType={"Post"}                                />
+                                    mediaUrl={post?.imageUrl} changeType={"Post"} />
                             </FormControl>
                             <FormMessage className="shad-form_message" />
                         </FormItem>
@@ -123,7 +158,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormControl>
                                 <Input
                                     type="text"
-                                    placeholder="Art, Music, Tech"
+                                    placeholder="Bitter, fruity, aromatic"
                                     className="shad-input"
                                     {...field}
                                 />
@@ -134,11 +169,12 @@ const PostForm = ({ post, action }: PostFormProps) => {
                 />
 
                 <div className="flex gap-4 items-center justify-end">
-                    <Button type="button" className="shad-button_dark_4">Cancel</Button>
+                    <Button type="button" className="shad-button_dark_4"><Link to={"/"}>Cancel
+                    </Link></Button>
                     <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate}>
                         {isLoadingCreate || isLoadingUpdate && 'Loading...'}
                         {action} Post
-                        </Button>
+                    </Button>
                 </div>
 
             </form>

@@ -1,6 +1,6 @@
 import PostForm from "@/components/forms/PostForm"
 
-const CreatePost = () => {
+const CreateCoffee = () => {
   return (
     <div className="flex flex-1">
       <div className="common-container">
@@ -12,7 +12,7 @@ const CreatePost = () => {
             alt="add"
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">
-            Create Post
+            Create Coffee
           </h2>
         </div>
 
@@ -25,4 +25,4 @@ const CreatePost = () => {
   )
 }
 
-export default CreatePost
+export default CreateCoffee

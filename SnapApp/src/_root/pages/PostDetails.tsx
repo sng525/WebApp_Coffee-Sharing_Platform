@@ -1,7 +1,7 @@
 import PostStats from '@/components/shared/PostStats';
 import { Button } from '@/components/ui/button';
 import { useUserContext } from '@/context/AuthContext';
-import { useGetPostById } from '@/lib/react-query/queriesAndMutations';
+import { useDeletePost, useGetPostById } from '@/lib/react-query/queriesAndMutations';
 import { formatTimeAgo } from '@/lib/utils';
 import { Loader } from 'lucide-react';
 import React from 'react'
@@ -14,9 +14,12 @@ const PostDetails = () => {
   // Fetch the post details
   const { data: post, isPending } = useGetPostById(id || '')
   const { user } = useUserContext();
+  const { mutateAsync: DeletePost, isPending: isLoadingDelete } = useDeletePost();
 
 
-  const handleDeletePost = () => { };
+  const handleDeletePost = () => {
+
+  };
 
   return (
     // Fix the UI
@@ -48,7 +51,6 @@ const PostDetails = () => {
                     <p> {post?.location} </p>
                   </div>
                 </div>
-
               </Link>
 
               <div className="flex-center">
@@ -68,7 +70,9 @@ const PostDetails = () => {
             <hr className="border w-full border-dark-4/35" />
 
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
-              <p> {post?.caption}</p>
+              <h3 className="text-lg font-semibold text-amber-800"> {post?.brand}</h3>
+              <p className="italic text-base"> {post?.type}</p>
+              <p className="py-3"> {post?.caption}</p>
               <ul className="flex gap-1 mt-2">
                 {post?.tags.map((tag: string) => (
                   <li key={tag} className="text-light-3">
@@ -79,8 +83,8 @@ const PostDetails = () => {
             </div>
 
             <div className="w-full">
-                <PostStats post={post} userId={user.id} />
-              </div>
+              <PostStats post={post} userId={user.id} />
+            </div>
           </div>
         </div>
       )

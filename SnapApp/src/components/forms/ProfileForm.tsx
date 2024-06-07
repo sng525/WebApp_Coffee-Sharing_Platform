@@ -3,7 +3,7 @@ import { ProfileValidation } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Models } from 'appwrite';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { z } from 'zod';
 import { toast } from '../ui/use-toast';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '../ui/form';
@@ -137,7 +137,9 @@ const ProfileForm = () => {
                 />
                 
                 <div className="flex gap-4 items-center justify-end">
-                    <Button type="button" className="shad-button_dark_4">Cancel</Button>
+                    <Button type="button" className="shad-button_dark_4">
+                        <Link to={`/profile/${user.id}`} >Cancel</Link>
+                    </Button>
                     <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingUpdate}>
                         {isLoadingUpdate && 'Loading...'} Update Profile
                         </Button>

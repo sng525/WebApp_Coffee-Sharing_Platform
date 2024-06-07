@@ -53,10 +53,10 @@ const SigninForm = () => {
 
   return (
     <Form {...form}>
-      <div className="sm:w-420 flex-center flex-col">
+      <div className="sm:w-420 flex-center flex-col gap-2">
         <img src="/assets/images/coffee-icon.svg" alt="logo" style={{ width: '50px', height: '50px' }} />
-        <h2 className="h3-bold md:h2-bold pt-5 sm:pt-12">Log in to your account</h2>
-        <p className="text-light-3 small-medium md:base-regular">Welcome back, please enter your details.</p>
+        <p className="font-sans text-2xl md:h1-bold pt-5 sm:pt-12">Welcome to <span style={{ color: '#914025' }}>Coffee Master</span></p>
+        <p className="font-sans text-light-4 small-medium md:base-regular">Get to know your daily coffee habits.</p>
 
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-5 w-full mt-4">
           <FormField
@@ -91,11 +91,11 @@ const SigninForm = () => {
                 <div className="flex-center gap-2">
                   <Loader />Loading...
                 </div>
-              ) : "Sign in"
+              ) : "Login"
             }
           </Button>
           <p className="text-small-regular text-dark-4 text-center mt-2">Don't have an account?
-            <Link to="/sign-up" className="text-small-semibold ml-1" style={{ color: '#05678C' }}>Sign up</Link>
+            <Link to="/sign-up" className="text-small-semibold ml-1" style={{ color: '#ba522f' }}>Register now</Link>
           </p>
         </form>
       </div>

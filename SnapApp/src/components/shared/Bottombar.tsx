@@ -15,7 +15,7 @@ function Bottombar() {
             <Link
               to={link.route}
               key={link.label}
-              className={`${isActive && 'bg-blue-500 rounded-[10px]' } flex-center flex-col gap-1 p-2 transition`}>
+              className={`${isActive && 'bg-neutral-500/80 rounded-[10px]' } flex-center flex-col gap-1 p-2 transition`}>
               <img
                 src={link.imgURL}
                 alt={link.label}

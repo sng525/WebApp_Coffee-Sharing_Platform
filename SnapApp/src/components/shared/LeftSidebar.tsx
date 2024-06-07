@@ -38,8 +38,8 @@ const LeftSidebar = () => {
             <p className="body-bold">
               {user.name}
             </p>
-            <p className="small-regular text-light3">
-              {user.username}
+            <p className="italic small-regular text-light3">
+              @{user.username}
             </p>
           </div>
         </Link>
@@ -51,7 +51,7 @@ const LeftSidebar = () => {
 
             return (
               <li key={link.label} className={`leftsidebar-link ${
-                isActive && 'bg-blue-900'
+                isActive && 'bg-neutral-500/80'
               }`}>
                 <NavLink to={link.route} className="flex gap-4 items-center p-4">
                   <img 

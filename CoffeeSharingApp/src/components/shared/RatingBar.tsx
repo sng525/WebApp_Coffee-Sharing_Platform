@@ -1,9 +1,9 @@
 type RatingBarProps = {
     value: number;
-    onChange: (rating: number) => void;
+    onChange?: (rating: number) => void;
 }
 
-const RatingBar = ({value, onChange} : RatingBarProps) => {
+const RatingBar = ({value, onChange = () => {}} : RatingBarProps) => {
 
     return (
         <div>
@@ -15,7 +15,7 @@ const RatingBar = ({value, onChange} : RatingBarProps) => {
                     style={{
                         cursor: 'pointer',
                         color: value >= star ? 'gold' : 'gray',
-                        fontSize: `35px`,
+                        fontSize: `30px`,
                       }}
                     onClick={() => onChange(star)}>
                     {' '}★{' '}

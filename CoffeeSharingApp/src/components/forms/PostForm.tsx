@@ -186,7 +186,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                 />
 
                 <div className="flex gap-4 items-center justify-end">
-                    <Button type="button" className="shad-button_dark_4"><Link to={"/"}>Cancel
+                    <Button type="button" className="shad-button_dark_4"><Link to={`/posts/${post.$id}`}>Cancel
                     </Link></Button>
                     <Button type="submit" className="shad-button_primary whitespace-nowrap" disabled={isLoadingCreate || isLoadingUpdate}>
                         {isLoadingCreate || isLoadingUpdate && 'Loading...'}

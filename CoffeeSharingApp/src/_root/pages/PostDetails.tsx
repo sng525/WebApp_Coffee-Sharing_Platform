@@ -1,4 +1,5 @@
 import PostStats from '@/components/shared/PostStats';
+import RatingBar from '@/components/shared/RatingBar';
 import { Button } from '@/components/ui/button';
 import { useUserContext } from '@/context/AuthContext';
 import { useDeletePost, useGetPostById } from '@/lib/react-query/queriesAndMutations';
@@ -88,6 +89,9 @@ const PostDetails = () => {
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
               <h3 className="text-lg font-semibold text-amber-800"> {post?.brand}</h3>
               <p className="italic text-base"> {post?.type}</p>
+              <div className="py-5">
+                <RatingBar value={post?.rating}/>
+              </div>
               <p className="py-3"> {post?.caption}</p>
               <ul className="flex gap-1 mt-2">
                 {post?.tags.map((tag: string) => (

@@ -309,6 +309,7 @@ export async function updatePost(post: IUpdatePost) {
         imageId: image.imageId,
         location: post.location,
         tags: tags,
+        rating: post.rating
       }
     );
 

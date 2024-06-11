@@ -5,7 +5,7 @@ import { useDeletePost, useGetPostById } from '@/lib/react-query/queriesAndMutat
 import { formatTimeAgo } from '@/lib/utils';
 import { Loader } from 'lucide-react';
 import React from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const PostDetails = () => {
 
@@ -14,10 +14,22 @@ const PostDetails = () => {
   // Fetch the post details
   const { data: post, isPending } = useGetPostById(id || '')
   const { user } = useUserContext();
-  const { mutateAsync: DeletePost, isPending: isLoadingDelete } = useDeletePost();
+  const { mutateAsync: DeletePost} = useDeletePost();
+
+  const navigate = useNavigate();
 
 
-  const handleDeletePost = () => {
+  const handleDeletePost = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (!post) return;
+
+    try {
+      await DeletePost({postId: id, imageId: post?.imageId});
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
 
   };
 
@@ -60,8 +72,12 @@ const PostDetails = () => {
                   <img src={"../assets/icons/edit.svg"} alt="edit" width={25} height={25} />
                 </Link>
 
-                <Button onClick={handleDeletePost} variant="ghost" className={`ghost_details-delete_btn ${user.id !== post?.creator.$id && 'hidden'}`}>
-                  <img src="/assets/icons/delete.svg" alt="Delete" width={25} height={25} />
+                <Button 
+                onClick={handleDeletePost} 
+                variant="ghost" 
+                className={`ghost_details-delete_btn ${user.id !== post?.creator.$id && 'hidden'}`
+                }>
+                <img src="/assets/icons/delete.svg" alt="Delete" width={25} height={25} />
                 </Button>
 
               </div>

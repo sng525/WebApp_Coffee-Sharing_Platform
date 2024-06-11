@@ -31,6 +31,7 @@ export type INavLink = {
     file: File[];
     location?: string;
     tags?: string;
+    rating: number;
   };
   
   export type IUser = {

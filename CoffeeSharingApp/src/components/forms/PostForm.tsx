@@ -12,6 +12,7 @@ import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutati
 import { useUserContext } from "@/context/AuthContext"
 import { useToast } from "../ui/use-toast"
 import { Link, useNavigate } from "react-router-dom"
+import RatingBar from "../shared/RatingBar"
 
 type PostFormProps = {
     post?: Models.Document;
@@ -35,7 +36,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
             caption: post ? post?.caption : "",
             file: [],
             location: post ? post?.location : "",
-            tags: post ? post?.tags.join(',') : ""
+            tags: post ? post?.tags.join(',') : "",
+            rating: post ? post?.rating : 0,
         },
     })
 
@@ -108,6 +110,21 @@ const PostForm = ({ post, action }: PostFormProps) => {
                         </FormItem>
                     )}
                 />
+                <FormField
+                    control={form.control}
+                    name="rating"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="shad-form_label">Rating</FormLabel>
+                            <FormControl>
+                                <RatingBar value={field.value} onChange={field.onChange} />
+                            </FormControl>
+                            <FormMessage className="shad-form_message" />
+                        </FormItem>
+                    )}
+                />
+                
+
                 <FormField
                     control={form.control}
                     name="caption"

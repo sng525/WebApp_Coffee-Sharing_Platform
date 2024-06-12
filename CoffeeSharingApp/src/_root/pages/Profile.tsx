@@ -8,7 +8,6 @@ import GrindPostList from "./GrindPostList";
 const Profile = () => {
   const { id } = useParams();
   const { user } = useUserContext();
-
   const { data: currentUser, isPending } = useGetUserById(id || '')
 
   if (isPending) {

@@ -3,6 +3,7 @@ import { formatTimeAgo } from "@/lib/utils"
 import { Models } from "appwrite"
 import { Link } from "react-router-dom"
 import PostStats from "./PostStats"
+import RatingBar from "./RatingBar"
 
 type PostCardProps = {
     post: Models.Document
@@ -51,7 +52,8 @@ const PostCard = ({ post }: PostCardProps) => {
                 <div className="small-medium lg:base-medium py-5">
                     <h3 className="text-lg font-semibold text-amber-800"> {post.brand}</h3>
                     <p className="italic text-base"> {post.type}</p>
-                    <p className="py-3"> {post.caption}</p>
+                    {post?.rating ? (<div className="py-5"><RatingBar value={post?.rating} /></div>) : null}
+                    <p className="py-5"> {post.caption}</p>
                     <ul className="flex gap-1 mt-2">
                         {post.tags.map((tag: string) => (
                             <li key={tag} className="italic text-light-3">

@@ -22,7 +22,7 @@ const AllUsers = () => {
                             <ul className="user-grid">
                                 {
                                     users?.documents?.map((user: Models.Document) => (
-                                        <li key={user.accountId} className="user-card">
+                                        <li key={user.$id} className="user-card">
                                             <UserCard user={user} />
                                         </li>
                                     ))

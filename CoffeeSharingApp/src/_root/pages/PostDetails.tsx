@@ -15,7 +15,7 @@ const PostDetails = () => {
   // Fetch the post details
   const { data: post, isPending } = useGetPostById(id || '')
   const { user } = useUserContext();
-  const { mutateAsync: DeletePost} = useDeletePost();
+  const { mutateAsync: DeletePost } = useDeletePost();
 
   const navigate = useNavigate();
 
@@ -26,7 +26,7 @@ const PostDetails = () => {
     if (!post) return;
 
     try {
-      await DeletePost({postId: id, imageId: post?.imageId});
+      await DeletePost({ postId: id, imageId: post?.imageId });
       navigate('/');
     } catch (error) {
       console.log(error);
@@ -73,12 +73,12 @@ const PostDetails = () => {
                   <img src={"../assets/icons/edit.svg"} alt="edit" width={25} height={25} />
                 </Link>
 
-                <Button 
-                onClick={handleDeletePost} 
-                variant="ghost" 
-                className={`ghost_details-delete_btn ${user.id !== post?.creator.$id && 'hidden'}`
-                }>
-                <img src="/assets/icons/delete.svg" alt="Delete" width={25} height={25} />
+                <Button
+                  onClick={handleDeletePost}
+                  variant="ghost"
+                  className={`ghost_details-delete_btn ${user.id !== post?.creator.$id && 'hidden'}`
+                  }>
+                  <img src="/assets/icons/delete.svg" alt="Delete" width={25} height={25} />
                 </Button>
 
               </div>
@@ -89,9 +89,7 @@ const PostDetails = () => {
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
               <h3 className="text-lg font-semibold text-amber-800"> {post?.brand}</h3>
               <p className="italic text-base"> {post?.type}</p>
-              <div className="py-5">
-                <RatingBar value={post?.rating}/>
-              </div>
+              {post?.rating ? (<div className="py-5"><RatingBar value={post?.rating} /></div>) : null}
               <p className="py-3"> {post?.caption}</p>
               <ul className="flex gap-1 mt-2">
                 {post?.tags.map((tag: string) => (

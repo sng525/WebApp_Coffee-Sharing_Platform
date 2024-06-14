@@ -399,7 +399,7 @@ export async function getUsers(limit?: number) {
 export async function getSavesByUserId(userId: string) {
   try {
     const saves = await databases.listDocuments(
-      appwriteConfig.databaseId,
+      appwriteConfig.databaseId,  
       appwriteConfig.saveCollectionId,
       [Query.equal("user", [userId])]
     );

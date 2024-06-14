@@ -3,7 +3,6 @@ import { checkIsLiked } from '@/lib/utils';
 import { Models } from 'appwrite'
 import { Loader } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { toast } from '../ui/use-toast';
 
 type PostStatsProps = {
     post: Models.Document;

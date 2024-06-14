@@ -13,6 +13,14 @@ import { useUserContext } from "@/context/AuthContext"
 import { useToast } from "../ui/use-toast"
 import { Link, useNavigate } from "react-router-dom"
 import RatingBar from "../shared/RatingBar"
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+import { useState } from "react"
 
 type PostFormProps = {
     post?: Models.Document;
@@ -26,6 +34,21 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const { user } = useUserContext();
     const { toast } = useToast();
     const navigate = useNavigate();
+
+    const [items, setItems] = useState([
+        { value: 'Starbucks', label: 'starbucks' },
+        { value: 'Zoegas', label: 'zoegas' },
+        { value: 'Lörbergs', label: 'lörbergs' }
+    ]);
+
+    const [newBrand, setNewBrand] = useState('');
+
+    const handleAddBrand = () => {
+        if (newBrand.trim() !== '') {
+            setItems([...items, { value: newBrand, label: newBrand }]);
+            setNewBrand('');
+        }
+    };
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof PostValidation>>({
@@ -81,6 +104,40 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     name="brand"
                     render={({ field }) => (
                         <FormItem>
+                            <FormLabel>Coffee Brand</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Select a brand" />
+                                    </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {items.map((item) => (
+                                        <SelectItem key={item.value} value={item.value}>
+                                            {item.label}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <input
+                                type="text"
+                                value={newBrand}
+                                onChange={(e) => setNewBrand(e.target.value)}
+                                placeholder="Add a new brand"
+                            />
+                            <button type="button" onClick={handleAddBrand}>
+                                Add Brand
+                            </button>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="brand"
+                    render={({ field }) => (
+                        <FormItem>
                             <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
                             <FormControl>
                                 <Input
@@ -123,7 +180,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                         </FormItem>
                     )}
                 />
-                
+
 
                 <FormField
                     control={form.control}

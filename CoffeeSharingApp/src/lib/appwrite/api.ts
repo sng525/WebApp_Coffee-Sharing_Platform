@@ -1,4 +1,4 @@
-import { INewUser, INewPost, IUpdatePost, IUser, IUpdateUser } from "@/types";
+import { INewUser, INewPost, IUpdatePost, IUser, IUpdateUser, INewBrand } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
@@ -465,6 +465,43 @@ export async function updateProfile(user: IUpdateUser) {
       throw Error;
     }
     return updatedUser;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createBrand(brand: INewBrand) {
+  try {
+    const uploadedFile = await uploadFile(brand.file[0]);
+
+    if (!uploadedFile) throw Error;
+
+    const fileUrl = getFilePreview(uploadedFile.$id);
+
+    if (!fileUrl) {
+      await deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+
+
+    const newBrand = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.brandCollectionId,
+      ID.unique(),
+      {
+        creator: brand.userId,
+        name: brand.name,
+        logoUrl: fileUrl,
+        logoId: uploadedFile.$id,
+      }
+    );
+
+    if (!newBrand) {
+      await deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+
+    return newBrand;
   } catch (error) {
     console.log(error);
   }

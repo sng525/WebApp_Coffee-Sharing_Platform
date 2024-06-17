@@ -50,3 +50,9 @@ export type INavLink = {
     username: string;
     password: string;
   };
+
+  export type INewBrand = {
+    userId: string;
+    name: string;
+    file: File[];
+  };

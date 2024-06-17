@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 type FileUploaderProps = {
     fieldChange: (FILES: File[]) => void;
     mediaUrl: string;
-    changeType: 'Profile' | 'Post'
+    changeType: 'Profile' | 'Post' | 'Brand'
 }
 
 const FileUploader = ({ fieldChange, mediaUrl, changeType }: FileUploaderProps) => {
@@ -30,7 +30,7 @@ const FileUploader = ({ fieldChange, mediaUrl, changeType }: FileUploaderProps) 
 
     return (
         <>
-            {changeType === 'Post' ? (
+            {changeType === 'Post' || 'Brand' ? (
                 <div {...getRootProps()} className="flex flex-center flex-col bg-white rounded-xl cursor-pointer">
                     <input {...getInputProps()} className="cursor-pointer" />
                     {

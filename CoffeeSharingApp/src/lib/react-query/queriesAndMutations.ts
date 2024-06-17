@@ -1,4 +1,4 @@
-import { INewUser, INewPost, IUpdatePost, IUpdatePost, IUpdateUser } from "@/types";
+import { INewUser, INewPost, IUpdatePost, IUpdatePost, IUpdateUser, INewBrand } from "@/types";
 import {
   useQuery,
   useMutation,
@@ -6,6 +6,7 @@ import {
   useInfiniteQuery,
 } from "@tanstack/react-query";
 import {
+  createBrand,
   createPost,
   createUserAccount,
   deletePost,
@@ -220,6 +221,18 @@ export const useUpdateProfile = () => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+      });
+    },
+  });
+};
+
+export const useAddBrand = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (brand: INewBrand) => createBrand(brand),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_BRANDS],
       });
     },
   });

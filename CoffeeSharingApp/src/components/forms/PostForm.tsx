@@ -105,36 +105,31 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
-                            <div className="bg-white rounded-lg">
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder="Select a coffee brand" />
-                                        </SelectTrigger>
-                                    </FormControl>
-                                    <SelectContent className="bg-slate-100">
-                                        {items.map((item) => (
-                                            <SelectItem key={item.value} value={item.value}>
-                                                {item.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <div className="flex flex-row py-2">
-                                <input
-                                    type="text"
-                                    value={newBrand}
-                                    onChange={(e) => setNewBrand(e.target.value)}
-                                    placeholder="Add a new brand"
-                                    className="text-center rounded-md"
-                                />
-                                <div className="px-4">
-                                    <button type="button" onClick={handleAddBrand} className="shad-button_dark_4">
-                                        Add
-                                    </button>
+                            <div className="flex flex-row items-center w-full">
+                                <div className="py-1 rounded-sm w-full">
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl className="bg-white">
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select a coffee brand" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent className="bg-slate-100">
+                                            {items.map((item) => (
+                                                <SelectItem key={item.value} value={item.value}>
+                                                    {item.label}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
                                 </div>
-
+                                <div className="px-2">
+                                    <Link to={"/add-brand"}>
+                                        <Button type="button" className="shad-button_dark_4">
+                                            <img src="../assets/icons/edit.svg" width={20} height={20} />
+                                            <p>Add Brand</p>
+                                        </Button>
+                                    </Link>
+                                </div>
                             </div>
                         </FormItem>
                     )}

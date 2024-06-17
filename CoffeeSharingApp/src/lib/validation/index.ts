@@ -30,3 +30,7 @@ export const ProfileValidation = z.object({
   file: z.custom<File[]>()
 });
 
+export const BrandValidation = z.object({
+  name: z.string().min(2).max(100),
+  file: z.custom<File[]>()
+});

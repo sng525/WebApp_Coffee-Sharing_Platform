@@ -36,9 +36,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const navigate = useNavigate();
 
     const [items, setItems] = useState([
-        { value: 'Starbucks', label: 'starbucks' },
-        { value: 'Zoegas', label: 'zoegas' },
-        { value: 'Lörbergs', label: 'lörbergs' }
+        { value: 'Starbucks', label: 'Starbucks' },
+        { value: 'Zoegas', label: 'Zoegas' },
+        { value: 'Lörbergs', label: 'Lörbergs' }
     ]);
 
     const [newBrand, setNewBrand] = useState('');
@@ -104,52 +104,42 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     name="brand"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Coffee Brand</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select a brand" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {items.map((item) => (
-                                        <SelectItem key={item.value} value={item.value}>
-                                            {item.label}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                            <input
-                                type="text"
-                                value={newBrand}
-                                onChange={(e) => setNewBrand(e.target.value)}
-                                placeholder="Add a new brand"
-                            />
-                            <button type="button" onClick={handleAddBrand}>
-                                Add Brand
-                            </button>
-                            <FormMessage />
+                            <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
+                            <div className="bg-white rounded-lg">
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <FormControl>
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a coffee brand" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-slate-100">
+                                        {items.map((item) => (
+                                            <SelectItem key={item.value} value={item.value}>
+                                                {item.label}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="flex flex-row py-2">
+                                <input
+                                    type="text"
+                                    value={newBrand}
+                                    onChange={(e) => setNewBrand(e.target.value)}
+                                    placeholder="Add a new brand"
+                                    className="text-center rounded-md"
+                                />
+                                <div className="px-4">
+                                    <button type="button" onClick={handleAddBrand} className="shad-button_dark_4">
+                                        Add
+                                    </button>
+                                </div>
+
+                            </div>
                         </FormItem>
                     )}
                 />
 
-                <FormField
-                    control={form.control}
-                    name="brand"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
-                            <FormControl>
-                                <Input
-                                    type="text"
-                                    className="shad-input"
-                                    {...field}
-                                />
-                            </FormControl>
-                            <FormMessage className="shad-form_message" />
-                        </FormItem>
-                    )}
-                />
                 <FormField
                     control={form.control}
                     name="type"

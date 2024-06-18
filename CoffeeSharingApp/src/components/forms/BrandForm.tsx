@@ -25,7 +25,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
         {
             resolver: zodResolver(BrandValidation),
             defaultValues: {
-                brand: brand ? brand?.name : "",
+                name: brand ? brand?.name : "",
                 file: []
             },
         }

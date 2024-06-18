@@ -483,7 +483,6 @@ export async function createBrand(brand: INewBrand) {
       throw Error;
     }
 
-
     const newBrand = await databases.createDocument(
       appwriteConfig.databaseId,
       appwriteConfig.brandCollectionId,
@@ -492,7 +491,7 @@ export async function createBrand(brand: INewBrand) {
         creator: brand.userId,
         name: brand.name,
         logoUrl: fileUrl,
-        logoId: uploadedFile.$id,
+        logoId: uploadedFile.$id
       }
     );
 

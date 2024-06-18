@@ -11,6 +11,7 @@ import {
   createUserAccount,
   deletePost,
   deleteSavedPost,
+  getBrands,
   getCurrentUser,
   getInfinitePosts,
   getPostById,
@@ -235,5 +236,12 @@ export const useAddBrand = () => {
         queryKey: [QUERY_KEYS.GET_BRANDS],
       });
     },
+  });
+};
+
+export const useGetBrands = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_BRANDS],
+    queryFn: getBrands,
   });
 };

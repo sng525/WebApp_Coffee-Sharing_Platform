@@ -8,7 +8,7 @@ import { Textarea } from "../ui/textarea"
 import FileUploader from "../shared/FileUploader"
 import { PostValidation } from "@/lib/validation"
 import { Models } from "appwrite"
-import { useCreatePost, useUpdatePost } from "@/lib/react-query/queriesAndMutations"
+import { useCreatePost, useGetBrands, useUpdatePost } from "@/lib/react-query/queriesAndMutations"
 import { useUserContext } from "@/context/AuthContext"
 import { useToast } from "../ui/use-toast"
 import { Link, useNavigate } from "react-router-dom"
@@ -20,7 +20,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 type PostFormProps = {
     post?: Models.Document;
@@ -28,27 +28,14 @@ type PostFormProps = {
 }
 
 const PostForm = ({ post, action }: PostFormProps) => {
-    const { mutateAsync: CreatePost, isPending: isLoadingCreate } = useCreatePost();
-    const { mutateAsync: UpdatePost, isPending: isLoadingUpdate } = useUpdatePost();
-
     const { user } = useUserContext();
     const { toast } = useToast();
     const navigate = useNavigate();
 
-    const [items, setItems] = useState([
-        { value: 'Starbucks', label: 'Starbucks' },
-        { value: 'Zoegas', label: 'Zoegas' },
-        { value: 'Lörbergs', label: 'Lörbergs' }
-    ]);
+    const { mutateAsync: CreatePost, isPending: isLoadingCreate } = useCreatePost();
+    const { mutateAsync: UpdatePost, isPending: isLoadingUpdate } = useUpdatePost();
+    const { data: brands } = useGetBrands();
 
-    const [newBrand, setNewBrand] = useState('');
-
-    const handleAddBrand = () => {
-        if (newBrand.trim() !== '') {
-            setItems([...items, { value: newBrand, label: newBrand }]);
-            setNewBrand('');
-        }
-    };
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof PostValidation>>({
@@ -114,9 +101,12 @@ const PostForm = ({ post, action }: PostFormProps) => {
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent className="bg-slate-100">
-                                            {items.map((item) => (
-                                                <SelectItem key={item.value} value={item.value}>
-                                                    {item.label}
+                                            {brands?.documents.map((brand) => (
+                                                <SelectItem key={brand.$id} value={brand.name}>
+                                                    <div className="flex flex-row items-center">
+                                                        <img src={brand.logoUrl} alt={`${brand.name} logo`} className="w-8 h-8 rounded-full mr-2" />
+                                                        {brand.name}
+                                                    </div>
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>

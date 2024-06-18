@@ -505,3 +505,19 @@ export async function createBrand(brand: INewBrand) {
     console.log(error);
   }
 }
+
+export async function getBrands() {
+  try {
+    const brands = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.brandCollectionId,
+      [Query.orderDesc("$createdAt")]
+    );
+
+    if (!brands) throw Error;
+
+    return brands;
+  } catch (error) {
+    console.log(error);
+  }
+}

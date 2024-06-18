@@ -132,8 +132,9 @@ export async function createPost(post: INewPost) {
         imageId: uploadedFile.$id,
         location: post.location,
         tags: tags,
-        brand: post.brand,
-        type: post.type
+        brand_test: post.brandId,
+        type: post.type,
+        rating: post.rating
       }
     );
 

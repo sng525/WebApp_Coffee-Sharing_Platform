@@ -20,11 +20,17 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 type PostFormProps = {
     post?: Models.Document;
     action: 'Create' | 'Update';
+}
+
+interface BrandDocument {
+    $id: string;
+    name: string;
+    logoUrl: string;
 }
 
 const PostForm = ({ post, action }: PostFormProps) => {
@@ -36,12 +42,18 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const { mutateAsync: UpdatePost, isPending: isLoadingUpdate } = useUpdatePost();
     const { data: brands } = useGetBrands();
 
+    const [selectedBrand, setSelectedBrand] = useState<BrandDocument | null>(null);
+
+    const handleSelectChange = (value: string) => {
+        const selected = (brands?.documents as unknown as BrandDocument[]).find((brand) => brand.name === value);
+        setSelectedBrand(selected || null);
+      };
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof PostValidation>>({
         resolver: zodResolver(PostValidation),
         defaultValues: {
-            brand: post ? post?.brand : "",
+            brand: post ? post?.brand_id : "",
             type: post ? post?.type : "",
             caption: post ? post?.caption : "",
             file: [],
@@ -72,7 +84,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
 
         const newPost = await CreatePost({
             ...values,
-            userId: user.id
+            userId: user.id,
+            brandId: selectedBrand?.$id
         })
 
         if (!newPost) {
@@ -94,7 +107,12 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
                             <div className="flex flex-row items-center w-full">
                                 <div className="py-1 rounded-sm w-full">
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <Select 
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        handleSelectChange(value);
+                                      }}
+                                    defaultValue={field.value}>
                                         <FormControl className="bg-white">
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a coffee brand" />
@@ -155,8 +173,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
                         </FormItem>
                     )}
                 />
-
-
                 <FormField
                     control={form.control}
                     name="caption"

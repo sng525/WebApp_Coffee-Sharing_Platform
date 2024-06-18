@@ -19,9 +19,9 @@ export type INavLink = {
     file: File[];
     location?: string;
     tags?: string;
-    brand?: string;
     type?: string;
     rating: number;
+    brandId?: string;
   };
   
   export type IUpdatePost = {

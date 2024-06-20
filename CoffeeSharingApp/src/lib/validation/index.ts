@@ -13,7 +13,7 @@ export const SigninValidation = z.object({
 });
 
 export const PostValidation = z.object({
-  brand: z.string().min(2).max(100),
+  brand_id: z.string().min(2).max(100),
   type: z.string().min(2).max(100),
   caption: z.string().min(5).max(2200),
   file:  z.custom<File[]>(),

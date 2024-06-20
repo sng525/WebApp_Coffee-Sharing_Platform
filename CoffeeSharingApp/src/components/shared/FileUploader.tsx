@@ -30,7 +30,7 @@ const FileUploader = ({ fieldChange, mediaUrl, changeType }: FileUploaderProps) 
 
     return (
         <>
-            {changeType === 'Post' || 'Brand' ? (
+            {changeType === 'Post' || changeType === 'Brand' ? (
                 <div {...getRootProps()} className="flex flex-center flex-col bg-white rounded-xl cursor-pointer">
                     <input {...getInputProps()} className="cursor-pointer" />
                     {

@@ -53,7 +53,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const form = useForm<z.infer<typeof PostValidation>>({
         resolver: zodResolver(PostValidation),
         defaultValues: {
-            brand: post ? post?.brand_id : "",
+            brand_id: post ? post?.brand_id : "",
             type: post ? post?.type : "",
             caption: post ? post?.caption : "",
             file: [],
@@ -71,7 +71,8 @@ const PostForm = ({ post, action }: PostFormProps) => {
                     ...values,
                     postId: post.$id,
                     imageId: post?.imageId,
-                    imageUrl: post?.imageUrl
+                    imageUrl: post?.imageUrl,
+                    brandId: selectedBrand?.$id
                 }
             )
 
@@ -101,7 +102,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-9 w-full max-w-5xl">
                 <FormField
                     control={form.control}
-                    name="brand"
+                    name="brand_id"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="shad-form_label">Coffee Brand</FormLabel>

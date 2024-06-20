@@ -11,6 +11,7 @@ import {
   createUserAccount,
   deletePost,
   deleteSavedPost,
+  getBrandById,
   getBrands,
   getCurrentUser,
   getInfinitePosts,
@@ -243,5 +244,13 @@ export const useGetBrands = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_BRANDS],
     queryFn: getBrands,
+  });
+};
+
+export const useGetBrandById = (brandId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_BRAND_BY_ID, brandId],
+    queryFn: () => getBrandById(brandId),
+    enabled: !!brandId, //!!!
   });
 };

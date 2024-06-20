@@ -33,6 +33,7 @@ export type INavLink = {
     location?: string;
     tags?: string;
     rating: number;
+    brandId?: string;
   };
   
   export type IUser = {

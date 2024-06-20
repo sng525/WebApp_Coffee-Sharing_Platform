@@ -4,6 +4,7 @@ import { Models } from "appwrite"
 import { Link } from "react-router-dom"
 import PostStats from "./PostStats"
 import RatingBar from "./RatingBar"
+import { useGetBrandById } from "@/lib/react-query/queriesAndMutations"
 
 type PostCardProps = {
     post: Models.Document
@@ -12,6 +13,8 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps) => {
     const { user } = useUserContext();
+    const brandId = post.brand_id?.$id;
+    const { data: brand } = useGetBrandById(brandId);
 
     if (!post.creator) return;
 
@@ -49,9 +52,12 @@ const PostCard = ({ post }: PostCardProps) => {
             </div>
 
             <Link to={`/posts/${post.$id}`}>
-                <div className="small-medium lg:base-medium py-5">
-                    <h3 className="text-lg font-semibold text-amber-800"> {post.brand}</h3>
-                    <p className="italic text-base"> {post.type}</p>
+                <div className="small-medium lg:base-medium py-3">
+                    <div className="flex flex-row justify-start items-center py-3">
+                        <img src={brand?.logoUrl} alt={`${brand?.name} logo`} className="w-12 h-12 rounded-full mr-2" />
+                        <h3 className="text-lg font-semibold text-amber-800"> {brand?.name}</h3>
+                        <p className="italic text-base px-5"> {post.type}</p>
+                    </div>
                     {post?.rating ? (<div className="py-5"><RatingBar value={post?.rating} /></div>) : null}
                     <p className="py-5"> {post.caption}</p>
                     <ul className="flex gap-1 mt-2">

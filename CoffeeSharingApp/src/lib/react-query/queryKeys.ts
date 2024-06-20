@@ -21,4 +21,5 @@ export enum QUERY_KEYS {
 
   // BRAND KEYS
   GET_BRANDS = "getBrands",
+  GET_BRAND_BY_ID = "getBrandById",
 }

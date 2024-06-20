@@ -132,7 +132,7 @@ export async function createPost(post: INewPost) {
         imageId: uploadedFile.$id,
         location: post.location,
         tags: tags,
-        brand_test: post.brandId,
+        brand_id: post.brandId,
         type: post.type,
         rating: post.rating
       }
@@ -518,6 +518,19 @@ export async function getBrands() {
     if (!brands) throw Error;
 
     return brands;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getBrandById(brandId: string) {
+  try {
+    const brand = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.brandCollectionId,
+      brandId
+    );
+    return brand;
   } catch (error) {
     console.log(error);
   }

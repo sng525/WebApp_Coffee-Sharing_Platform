@@ -2,7 +2,7 @@ import PostStats from '@/components/shared/PostStats';
 import RatingBar from '@/components/shared/RatingBar';
 import { Button } from '@/components/ui/button';
 import { useUserContext } from '@/context/AuthContext';
-import { useDeletePost, useGetPostById } from '@/lib/react-query/queriesAndMutations';
+import { useDeletePost, useGetBrandById, useGetPostById } from '@/lib/react-query/queriesAndMutations';
 import { formatTimeAgo } from '@/lib/utils';
 import { Loader } from 'lucide-react';
 import React from 'react'
@@ -16,9 +16,10 @@ const PostDetails = () => {
   const { data: post, isPending } = useGetPostById(id || '')
   const { user } = useUserContext();
   const { mutateAsync: DeletePost } = useDeletePost();
+  const brandId = post?.brand_id?.$id;
+  const { data: brand } = useGetBrandById(brandId);
 
   const navigate = useNavigate();
-
 
   const handleDeletePost = async (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -87,8 +88,11 @@ const PostDetails = () => {
             <hr className="border w-full border-dark-4/35" />
 
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
-              <h3 className="text-lg font-semibold text-amber-800"> {post?.brand}</h3>
-              <p className="italic text-base"> {post?.type}</p>
+              <div className="flex flex-row justify-start items-center py-3">
+                <img src={brand?.logoUrl} alt={`${brand?.name} logo`} className="w-12 h-12 rounded-full mr-2" />
+                <h3 className="text-lg font-semibold text-amber-800"> {brand?.name}</h3>
+                <p className="italic text-base px-5"> {post?.type}</p>
+              </div>
               {post?.rating ? (<div className="py-5"><RatingBar value={post?.rating} /></div>) : null}
               <p className="py-3"> {post?.caption}</p>
               <ul className="flex gap-1 mt-2">

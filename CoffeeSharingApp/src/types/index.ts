@@ -22,6 +22,7 @@ export type INavLink = {
     type?: string;
     rating: number;
     brandId?: string;
+    name: string;
   };
   
   export type IUpdatePost = {

@@ -19,7 +19,8 @@ export const PostValidation = z.object({
   file:  z.custom<File[]>(),
   location: z.string().min(2).max(100),
   tags: z.string(),
-  rating: z.number()
+  rating: z.number(),
+  name: z.string().min(2).max(100)
 });
 
 export const ProfileValidation = z.object({

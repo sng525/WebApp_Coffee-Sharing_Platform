@@ -42,12 +42,22 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const { mutateAsync: UpdatePost, isPending: isLoadingUpdate } = useUpdatePost();
     const { data: brands } = useGetBrands();
 
+    // Select coffee brand
     const [selectedBrand, setSelectedBrand] = useState<BrandDocument | null>(null);
 
-    const handleSelectChange = (value: string) => {
+    const handleSelectBrand = (value: string) => {
         const selected = (brands?.documents as unknown as BrandDocument[]).find((brand) => brand.name === value);
         setSelectedBrand(selected || null);
-      };
+    };
+
+    // Select coffee type
+    const types = ["Café", "Coffee Beans", "Instant", "Capsule Coffee", "Drip Bag"]
+    const [selectedType, setSelectedType] = useState<string>();
+
+    const handleSelectType = (value: string) => {
+        const selected = types.find(type => type === value);
+        setSelectedType(selected);
+    };
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof PostValidation>>({
@@ -60,6 +70,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
             location: post ? post?.location : "",
             tags: post ? post?.tags.join(',') : "",
             rating: post ? post?.rating : 0,
+            name: post ? post?.name : ""
         },
     })
 
@@ -108,12 +119,12 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
                             <div className="flex flex-row items-center w-full">
                                 <div className="py-1 rounded-sm w-full">
-                                    <Select 
-                                    onValueChange={(value) => {
-                                        field.onChange(value);
-                                        handleSelectChange(value);
-                                      }}
-                                    defaultValue={field.value}>
+                                    <Select
+                                        onValueChange={(value) => {
+                                            field.onChange(value);
+                                            handleSelectBrand(value);
+                                        }}
+                                        defaultValue={field.value}>
                                         <FormControl className="bg-white">
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select a coffee brand" />
@@ -151,11 +162,40 @@ const PostForm = ({ post, action }: PostFormProps) => {
                         <FormItem>
                             <FormLabel className="shad-form_label">Coffee Type</FormLabel>
                             <FormControl>
-                                <Input
-                                    type="text"
-                                    className="shad-input"
-                                    {...field}
-                                />
+                                <Select
+                                    onValueChange={(value) => {
+                                        field.onChange(value);
+                                        handleSelectType(value);
+                                    }}
+                                    defaultValue={field.value}>
+                                    <FormControl className="bg-white">
+                                        <SelectTrigger>
+                                            <SelectValue placeholder="Select a coffee type" />
+                                        </SelectTrigger>
+                                    </FormControl>
+                                    <SelectContent className="bg-slate-100">
+                                            {types.map((type) => (
+                                                <SelectItem key={type} value={type}>
+                                                    <div className="flex flex-row items-center">
+                                                        {type}
+                                                    </div>
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage className="shad-form_message" />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="shad-form_label">Coffee Name</FormLabel>
+                            <FormControl>
+                                <Input type="text" className="shad-input" {...field} />
                             </FormControl>
                             <FormMessage className="shad-form_message" />
                         </FormItem>

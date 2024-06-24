@@ -134,7 +134,8 @@ export async function createPost(post: INewPost) {
         tags: tags,
         brand_id: post.brandId,
         type: post.type,
-        rating: post.rating
+        rating: post.rating,
+        name: post.name
       }
     );
 

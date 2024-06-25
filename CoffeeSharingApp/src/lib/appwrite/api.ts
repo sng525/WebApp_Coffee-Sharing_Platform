@@ -1,4 +1,4 @@
-import { INewUser, INewPost, IUpdatePost, IUser, IUpdateUser, INewBrand } from "@/types";
+import { INewUser, INewPost, IUpdatePost, IUser, IUpdateUser, INewBrand, INewEquipment } from "@/types";
 import { ID, Query } from "appwrite";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
@@ -532,6 +532,60 @@ export async function getBrandById(brandId: string) {
       brandId
     );
     return brand;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function createEquipment(equipment: INewEquipment) {
+  try {
+    const uploadedFile = await uploadFile(equipment.file[0]);
+
+    if (!uploadedFile) throw Error;
+
+    const fileUrl = getFilePreview(uploadedFile.$id);
+
+    if (!fileUrl) {
+      await deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+
+    const newEquipment = await databases.createDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.equipmentCollectionId,
+      ID.unique(),
+      {
+        user: equipment.userId,
+        name: equipment.name,
+        type: equipment.type,
+        logo: fileUrl,
+        logoId: uploadedFile.$id,
+        description: equipment.description
+      }
+    );
+
+    if (!newEquipment) {
+      await deleteFile(uploadedFile.$id);
+      throw Error;
+    }
+
+    return newEquipment;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getEquipments() {
+  try {
+    const equipments = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.equipmentCollectionId,
+      [Query.orderDesc("$createdAt")]
+    );
+
+    if (!equipments) throw Error;
+
+    return equipments;
   } catch (error) {
     console.log(error);
   }

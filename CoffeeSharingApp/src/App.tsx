@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
 import AddBrand from "./_root/pages/AddBrand";
+import AddEquipment from "./_root/pages/AddEquipment";
 
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="/profile/:id/*" element={<Profile />} />
           <Route path="/update-profile/:id/*" element={<UpdateProfile />} />
           <Route path="/add-brand" element={<AddBrand />} />
+          <Route path="/add-equipment" element={<AddEquipment />} />
         </Route>
       </Routes>
 

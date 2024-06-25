@@ -1,4 +1,4 @@
-import { INewUser, INewPost, IUpdatePost, IUpdatePost, IUpdateUser, INewBrand } from "@/types";
+import { INewUser, INewPost, IUpdatePost, IUpdatePost, IUpdateUser, INewBrand, INewEquipment } from "@/types";
 import {
   useQuery,
   useMutation,
@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-query";
 import {
   createBrand,
+  createEquipment,
   createPost,
   createUserAccount,
   deletePost,
@@ -14,6 +15,7 @@ import {
   getBrandById,
   getBrands,
   getCurrentUser,
+  getEquipments,
   getInfinitePosts,
   getPostById,
   getRecentPosts,
@@ -252,5 +254,24 @@ export const useGetBrandById = (brandId: string) => {
     queryKey: [QUERY_KEYS.GET_BRAND_BY_ID, brandId],
     queryFn: () => getBrandById(brandId),
     enabled: !!brandId, //!!!
+  });
+};
+
+export const useAddEquipment = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (equipment: INewEquipment) => createEquipment(equipment),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_EQUIPMENTS],
+      });
+    },
+  });
+};
+
+export const useGetEquipments = () => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_EQUIPMENTS],
+    queryFn: getEquipments,
   });
 };

@@ -23,6 +23,7 @@ export type INavLink = {
     rating: number;
     brandId?: string;
     name: string;
+    equipmentId?: string;
   };
   
   export type IUpdatePost = {
@@ -57,4 +58,12 @@ export type INavLink = {
     userId: string;
     name: string;
     file: File[];
+  };
+
+  export type INewEquipment = {
+    userId: string;
+    name: string;
+    type: string;
+    file: File[];
+    description: string;
   };

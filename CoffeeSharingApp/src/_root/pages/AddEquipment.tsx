@@ -1,6 +1,6 @@
-import PostForm from "@/components/forms/PostForm"
+import EquipmentForm from '@/components/forms/EquipmentForm'
 
-const CreateCoffee = () => {
+const AddEquipment = () => {
   return (
     <div className="flex flex-1">
       <div className="common-container">
@@ -12,17 +12,17 @@ const CreateCoffee = () => {
             alt="add"
           />
           <h2 className="h3-bold md:h2-bold text-left w-full">
-            Create Coffee
+            Add Brew Equipment
           </h2>
         </div>
-        
-        <PostForm action="Create">
 
-        </PostForm>
+        <EquipmentForm>
+
+        </EquipmentForm>
 
       </div>
     </div>
   )
 }
 
-export default CreateCoffee
+export default AddEquipment

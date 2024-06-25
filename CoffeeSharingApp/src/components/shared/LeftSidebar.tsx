@@ -17,7 +17,7 @@ const LeftSidebar = () => {
   }, [isSuccess]);
 
   return (
-    <nav className="leftsidebar" >
+    <nav className="leftsidebar"  style={{ backgroundColor: '#A0937D' }}>
       <div className="flex flex-col gap-11">
         <Link to="/" className='flex gap-3 items-center justify-center'>
           <img
@@ -51,7 +51,7 @@ const LeftSidebar = () => {
 
             return (
               <li key={link.label} className={`leftsidebar-link ${
-                isActive && 'bg-neutral-500/80'
+                isActive && 'bg-[#BB8760]'
               }`}>
                 <NavLink to={link.route} className="flex gap-4 items-center p-4">
                   <img 

@@ -20,7 +20,8 @@ export const PostValidation = z.object({
   location: z.string().min(2).max(100),
   tags: z.string(),
   rating: z.number(),
-  name: z.string().min(2).max(100)
+  name: z.string().min(2).max(100),
+  equipment: z.string().min(2).max(2000)
 });
 
 export const ProfileValidation = z.object({
@@ -34,4 +35,11 @@ export const ProfileValidation = z.object({
 export const BrandValidation = z.object({
   name: z.string().min(2).max(100),
   file: z.custom<File[]>()
+});
+
+export const EquipmentValidation = z.object({
+  name: z.string().min(2).max(100),
+  type: z.string().min(2).max(100),
+  file: z.custom<File[]>(),
+  description: z.string().min(2).max(2200)
 });

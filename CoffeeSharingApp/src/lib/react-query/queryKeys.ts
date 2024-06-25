@@ -1,5 +1,5 @@
 export enum QUERY_KEYS {
-      // AUTH KEYS
+  // AUTH KEYS
   CREATE_USER_ACCOUNT = "createUserAccount",
 
   // USER KEYS
@@ -22,4 +22,7 @@ export enum QUERY_KEYS {
   // BRAND KEYS
   GET_BRANDS = "getBrands",
   GET_BRAND_BY_ID = "getBrandById",
+
+  // EQUIPMENT KEYS
+  GET_EQUIPMENTS = "getEquipments",
 }

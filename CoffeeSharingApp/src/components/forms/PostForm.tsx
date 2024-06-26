@@ -233,7 +233,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
                                             {equipments?.documents.map((equipment) => (
                                                 <SelectItem key={equipment.$id} value={equipment.name}>
                                                     <div className="flex flex-row items-center">
-                                                        <img src={equipment.logoUrl} alt={`${equipment.name} logo`} className="w-8 h-8 rounded-full mr-2" />
+                                                        <img src={equipment.logo} alt={`${equipment.name} logo`} className="w-8 h-8 rounded-full mr-2" />
                                                         {equipment.name}
                                                     </div>
                                                 </SelectItem>

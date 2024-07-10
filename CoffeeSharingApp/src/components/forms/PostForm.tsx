@@ -184,7 +184,9 @@ const PostForm = ({ post, action }: PostFormProps) => {
                                     </FormControl>
                                     <SelectContent className="bg-slate-100">
                                             {types.map((type) => (
-                                                <SelectItem key={type} value={type}>
+                                                <SelectItem 
+                                                key={type} 
+                                                value={type}>
                                                     <div className="flex flex-row items-center">
                                                         {type}
                                                     </div>

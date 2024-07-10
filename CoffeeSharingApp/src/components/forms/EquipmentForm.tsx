@@ -12,7 +12,7 @@ import FileUploader from '../shared/FileUploader';
 import { Button } from '../ui/button';
 import { useUserContext } from '@/context/AuthContext';
 import { Textarea } from '../ui/textarea';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@radix-ui/react-select';
 
 type EquipmentFormProps = {
@@ -50,7 +50,9 @@ const EquipmentForm = ({ equipment }: EquipmentFormProps) => {
 
     const handleSelectType = (value: string) => {
         const selected = equipments.find(equipment => equipment.name === value) || null;
-        setSelectedType(selected);
+        if (selected) {
+            setSelectedType(selected);
+        }
     };
 
 

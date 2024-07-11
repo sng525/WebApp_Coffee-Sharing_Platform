@@ -12,16 +12,10 @@ import FileUploader from '../shared/FileUploader';
 import { Button } from '../ui/button';
 import { useUserContext } from '@/context/AuthContext';
 import { Textarea } from '../ui/textarea';
-import { useState, useEffect } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@radix-ui/react-select';
+import Dropdown from '../shared/Dropdown';
 
 type EquipmentFormProps = {
     equipment?: Models.Document;
-}
-
-interface EquipmentType {
-    name: string;
-    iconUrl: string;
 }
 
 const EquipmentForm = ({ equipment }: EquipmentFormProps) => {
@@ -29,31 +23,21 @@ const EquipmentForm = ({ equipment }: EquipmentFormProps) => {
     const { user } = useUserContext();
     const navigate = useNavigate();
 
-    const equipments: EquipmentType[] = [
-        { name: 'Drip Coffee Maker', iconUrl: 'assets/equipment_icons/drip-coffee-maker.png' },
-        { name: 'Pour-Over Coffee Maker', iconUrl: 'assets/equipment_icons/pour-over-coffee-maker.png' },
-        { name: 'Capsule Machine', iconUrl: 'assets/equipment_icons/capsule-machine.png' },
-        { name: 'French Press', iconUrl: 'assets/equipment_icons/french-press.png' },
-        { name: 'AeroPress', iconUrl: 'assets/equipment_icons/aeropress.png' },
-        { name: 'Cold Brew', iconUrl: 'assets/equipment_icons/cold-brew.png' },
-        { name: 'Espresso', iconUrl: 'assets/equipment_icons/espresso.png' },
-        { name: 'Capsule Espresso', iconUrl: 'assets/equipment_icons/capsule-espresso.png' },
-        { name: 'Moka pot', iconUrl: 'assets/equipment_icons/moka-pot.png' },
-        { name: 'Grind and Brew Coffee Maker', iconUrl: 'assets/equipment_icons/grind-and-brew-coffee-maker.png' },
-        { name: 'Ibrik', iconUrl: 'assets/equipment_icons/ibrik.png' },
-        { name: 'Steeped Coffee', iconUrl: 'assets/equipment_icons/coffee-drip.png' },
-        { name: 'Phin Filter', iconUrl: 'assets/equipment_icons/phin.png' },
+    const equipments = [
+        { "id": "1", "name": 'Drip Coffee Maker', "imageUrl": 'assets/equipment_icons/drip-coffee-maker.png' },
+        { "id": "2", "name": 'Pour-Over Coffee Maker', "imageUrl": 'assets/equipment_icons/pour-over-coffee-maker.png' },
+        { "id": "3", "name": 'Capsule Machine', "imageUrl": 'assets/equipment_icons/capsule-machine.png' },
+        { "id": "4", "name": 'French Press', "imageUrl": 'assets/equipment_icons/french-press.png' },
+        { "id": "5", "name": 'AeroPress', "imageUrl": 'assets/equipment_icons/aeropress.png' },
+        { "id": "6", "name": 'Cold Brew', "imageUrl": 'assets/equipment_icons/cold-brew.png' },
+        { "id": "7", "name": 'Espresso', "imageUrl": 'assets/equipment_icons/espresso.png' },
+        { "id": "8", "name": 'Capsule Espresso', "imageUrl": 'assets/equipment_icons/capsule-espresso.png' },
+        { "id": "9", "name": 'Moka pot', "imageUrl": 'assets/equipment_icons/moka-pot.png' },
+        { "id": "10", "name": 'Grind and Brew Coffee Maker', "imageUrl": 'assets/equipment_icons/grind-and-brew-coffee-maker.png' },
+        { "id": "11", "name": 'Ibrik', "imageUrl": 'assets/equipment_icons/ibrik.png' },
+        { "id": "12", "name": 'Steeped Coffee', "imageUrl": 'assets/equipment_icons/coffee-drip.png' },
+        { "id": "13", "name": 'Phin Filter', "imageUrl": 'assets/equipment_icons/phin.png' },
     ];
-
-    // Select coffee type
-    const [selectedType, setSelectedType] = useState<EquipmentType | null>(null);
-
-    const handleSelectType = (value: string) => {
-        const selected = equipments.find(equipment => equipment.name === value) || null;
-        if (selected) {
-            setSelectedType(selected);
-        }
-    };
 
 
     const form = useForm<z.infer<typeof EquipmentValidation>>(
@@ -91,32 +75,13 @@ const EquipmentForm = ({ equipment }: EquipmentFormProps) => {
                             <FormLabel className="shad-form_label">Brew Equipment</FormLabel>
                             <FormControl>
                                 <div className="h-full w-full">
-                                    <Select
-                                        onValueChange={(value) => {
-                                            field.onChange(value);
-                                            handleSelectType(value);
-                                        }}
-                                        defaultValue={field.value}>
-                                        <FormControl className="bg-white w-full">
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a brew equipment" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent className="bg-slate-100 w-full">
-                                            {equipments.map((equipment) => (
-                                                <SelectItem key={equipment.name} value={equipment.name}>
-                                                    <div className="flex flex-row items-center py-2">
-                                                        <img
-                                                            src={equipment.iconUrl}
-                                                            alt={`${equipment} icon`}
-                                                            className="w-10 h-10 mr-2"
-                                                        />
-                                                        {equipment.name}
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <Dropdown 
+                                    id="equipment" 
+                                    title="Select Equipment Type" 
+                                    data={equipments} 
+                                    hasImage 
+                                    fieldChange={field.onChange} 
+                                />
                                 </div>
 
                             </FormControl>

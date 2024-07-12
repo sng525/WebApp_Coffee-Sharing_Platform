@@ -54,7 +54,7 @@ const PostCard = ({ post }: PostCardProps) => {
             <Link to={`/posts/${post.$id}`}>
                 <div className="small-medium lg:base-medium py-3">
                     <div className="flex flex-row justify-start items-center py-3">
-                        <img src={brand?.logoUrl} alt={`${brand?.name} logo`} className="w-12 h-12 rounded-full mr-2" />
+                        <img src={brand?.imageUrl} alt={`${brand?.name} logo`} className="w-12 h-12 rounded-full mr-2" />
                         <h3 className="text-lg font-semibold text-amber-800"> {brand?.name}</h3>
                         <p className="italic text-base px-5"> {post.type}</p>
                     </div>

@@ -492,8 +492,8 @@ export async function createBrand(brand: INewBrand) {
       {
         creator: brand.userId,
         name: brand.name,
-        logoUrl: fileUrl,
-        logoId: uploadedFile.$id
+        logoId: uploadedFile.$id,
+        imageUrl: fileUrl
       }
     );
 
@@ -558,7 +558,7 @@ export async function createEquipment(equipment: INewEquipment) {
         user: equipment.userId,
         name: equipment.name,
         type: equipment.type,
-        logo: fileUrl,
+        imageUrl: fileUrl,
         logoId: uploadedFile.$id,
         description: equipment.description
       }

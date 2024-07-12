@@ -69,7 +69,7 @@ const BrandForm = ({ brand }: BrandFormProps) => {
                             <FormControl>
                                 <FileUploader
                                     fieldChange={field.onChange}
-                                    mediaUrl={brand?.logoUrl} changeType={'Brand'}/>
+                                    mediaUrl={brand?.imageUrl} changeType={'Brand'}/>
                             </FormControl>
                             <FormMessage className="shad-form_message" />
                         </FormItem>

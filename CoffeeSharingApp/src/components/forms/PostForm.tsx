@@ -21,6 +21,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { useState } from "react"
+import Dropdown from "../shared/Dropdown"
 
 type PostFormProps = {
     post?: Models.Document;
@@ -30,7 +31,7 @@ type PostFormProps = {
 interface BrandDocument {
     $id: string;
     name: string;
-    logoUrl: string;
+    imageUrl: string;
 }
 
 const PostForm = ({ post, action }: PostFormProps) => {
@@ -44,11 +45,11 @@ const PostForm = ({ post, action }: PostFormProps) => {
     const { data: equipments } = useGetEquipments();
 
     // Select coffee brand
-    const [selectedBrand, setSelectedBrand] = useState<BrandDocument | null>(null);
+    const [selectedBrand, setSelectedBrand] = useState<BrandDocument>();
 
     const handleSelectBrand = (value: string) => {
         const selected = (brands?.documents as unknown as BrandDocument[]).find((brand) => brand.name === value);
-        setSelectedBrand(selected || null);
+        setSelectedBrand(selected);
     };
 
     // Select coffee type
@@ -60,12 +61,6 @@ const PostForm = ({ post, action }: PostFormProps) => {
         setSelectedType(selected);
     };
 
-    // Select Brew Equipment
-    const [selectedEquipment, setSelecteEquipment] = useState<BrandDocument | null>(null);
-    const handleSelectEquipment = (value: string) => {
-        const selected = (equipments?.documents as unknown as BrandDocument[]).find((equipment) => equipment.name === value);
-        setSelecteEquipment(selected || null);
-    };
 
     // 1. Define your form.
     const form = useForm<z.infer<typeof PostValidation>>({
@@ -128,28 +123,15 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormLabel className="shad-form_label">Coffee Brand</FormLabel>
                             <div className="flex flex-row items-center w-full">
                                 <div className="py-1 rounded-sm w-full">
-                                    <Select
-                                        onValueChange={(value) => {
-                                            field.onChange(value);
-                                            handleSelectBrand(value);
-                                        }}
-                                        defaultValue={field.value}>
-                                        <FormControl className="bg-white">
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a coffee brand" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent className="bg-slate-100">
-                                            {brands?.documents.map((brand) => (
-                                                <SelectItem key={brand.$id} value={brand.name}>
-                                                    <div className="flex flex-row items-center">
-                                                        <img src={brand.logoUrl} alt={`${brand.name} logo`} className="w-8 h-8 rounded-full mr-2" />
-                                                        {brand.name}
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <FormControl>
+                                        <Dropdown 
+                                        id={"brand"} 
+                                        title={"Select a coffee brand"}
+                                        data={brands?.documents} 
+                                        hasImage
+                                        fieldChange={field.onChange} 
+                                        />
+                                    </FormControl>
                                 </div>
                                 <div className="px-2">
                                     <Link to={"/add-brand"}>
@@ -220,28 +202,15 @@ const PostForm = ({ post, action }: PostFormProps) => {
                             <FormLabel className="shad-form_label">Brew Equipment</FormLabel>
                             <div className="flex flex-row items-center w-full">
                                 <div className="py-1 rounded-sm w-full">
-                                    <Select
-                                        onValueChange={(value) => {
-                                            field.onChange(value);
-                                            handleSelectEquipment(value);
-                                        }}
-                                        defaultValue={field.value}>
-                                        <FormControl className="bg-white">
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select a brew equipment" />
-                                            </SelectTrigger>
-                                        </FormControl>
-                                        <SelectContent className="bg-slate-100">
-                                            {equipments?.documents.map((equipment) => (
-                                                <SelectItem key={equipment.$id} value={equipment.name}>
-                                                    <div className="flex flex-row items-center">
-                                                        <img src={equipment.logo} alt={`${equipment.name} logo`} className="w-8 h-8 rounded-full mr-2" />
-                                                        {equipment.name}
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
+                                    <FormControl>
+                                        <Dropdown 
+                                        id={"equipment"} 
+                                        title={"Select a brew equipment"}
+                                        data={equipments?.documents} 
+                                        hasImage
+                                        fieldChange={field.onChange} 
+                                        />
+                                    </FormControl>
                                 </div>
                                 <div className="px-2">
                                     <Link to={"/add-equipment"}>
